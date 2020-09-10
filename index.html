@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <!-- GOOGLE CHARTS LIBRARY -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', { packages: ['scatter'] });
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'Hours Studied');
+        data.addColumn('number', 'Final');
+        data.addColumn('number', 'Final2');
+
+        data.addRows([
+          [0, , 47],
+          [1, , 32],
+          [2, 77, ,],
+          [3, 93, ,],
+          [4, 85, ,],
+          [5, 91, ,],
+          [9, 80, ,],
+          [10, 82, ,],
+          [0, , 35],
+          [4, 60, ,],
+          [2, , 56],
+          [6, 92, ,],
+          [2, 81, ,],
+          [7, 84, ,],
+          [9, 98, ,],
+        ]);
+
+        var options = {
+          width: 1000,
+          height: 600,
+          chart: {
+            title: "Students' Final Grades",
+            subtitle: 'based on hours studied',
+          },
+          hAxis: { title: 'Hours Studied' },
+          vAxis: { title: 'Grade' },
+        };
+
+        var chart = new google.charts.Scatter(document.getElementById('chart_div'));
+
+        chart.draw(data, google.charts.Scatter.convertOptions(options));
+      }
+    </script>
+  </head>
+  <body>
+    <div id="chart_div" style="margin-top: calc(50vh - 300px); margin-left: calc(50vw - 500px)"></div>
+  </body>
+</html>
