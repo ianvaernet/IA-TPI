@@ -1,53 +1,53 @@
 <html>
   <head>
-    <!-- GOOGLE CHARTS LIBRARY -->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load('current', { packages: ['scatter'] });
-      google.charts.setOnLoadCallback(drawChart);
-
-      function drawChart() {
-        var data = new google.visualization.DataTable();
-        data.addColumn('number', 'Hours Studied');
-        data.addColumn('number', 'Final');
-        data.addColumn('number', 'Final2');
-
-        data.addRows([
-          [0, , 47],
-          [1, , 32],
-          [2, 77, ,],
-          [3, 93, ,],
-          [4, 85, ,],
-          [5, 91, ,],
-          [9, 80, ,],
-          [10, 82, ,],
-          [0, , 35],
-          [4, 60, ,],
-          [2, , 56],
-          [6, 92, ,],
-          [2, 81, ,],
-          [7, 84, ,],
-          [9, 98, ,],
-        ]);
-
-        var options = {
-          width: 1000,
-          height: 600,
-          chart: {
-            title: "Students' Final Grades",
-            subtitle: 'based on hours studied',
-          },
-          hAxis: { title: 'Hours Studied' },
-          vAxis: { title: 'Grade' },
-        };
-
-        var chart = new google.charts.Scatter(document.getElementById('chart_div'));
-
-        chart.draw(data, google.charts.Scatter.convertOptions(options));
-      }
-    </script>
+    <script src="plotly.min.js"></script>
+    <script src="plotly-locale-es.js"></script>
+    <script src="knn.js"></script>
+    <script src="calculateDistances.js"></script>
+    <script src="orderByDistance.js"></script>
+    <script src="classifyNewInstance.js"></script>
+    <script src="formatDataToPlot.js"></script>
   </head>
   <body>
-    <div id="chart_div" style="margin-top: calc(50vh - 300px); margin-left: calc(50vw - 500px)"></div>
+    <div id="chart" style="height: 50vh; width: 50vw; margin-top: 25vh; margin-left: 25vw"></div>
+    <script type="text/javascript">
+      let trainingData = [
+        { x: 1, y: 1, label: 'Etiqueta 1' },
+        { x: 2, y: 2, label: 'Etiqueta 1' },
+        { x: 1.5, y: 6, label: 'Etiqueta 1' },
+        { x: 3, y: 8, label: 'Etiqueta 1' },
+        { x: 6, y: 14, label: 'Etiqueta 2' },
+        { x: 7, y: 12, label: 'Etiqueta 2' },
+        { x: 8, y: 15, label: 'Etiqueta 2' },
+        { x: 6.5, y: 13, label: 'Etiqueta 2' },
+      ];
+      let newInstance = { x: 4.5, y: 10 };
+      let k = 3;
+      let data = knn(trainingData, newInstance, k);
+
+      Plotly.newPlot(
+        document.getElementById('chart'),
+        formatDataToPlot(data),
+        {
+          margin: { t: 35 },
+          dragmode: 'pan',
+          hovermode: 'closest',
+        },
+        {
+          scrollZoom: true,
+          locale: 'es',
+          displaylogo: false,
+          responsive: true,
+          modeBarButtonsToRemove: [
+            'zoom2d',
+            'select2d',
+            'lasso2d',
+            'hoverClosestCartesian',
+            'hoverCompareCartesian',
+            'autoScale2d',
+          ],
+        }
+      );
+    </script>
   </body>
 </html>
