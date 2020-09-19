@@ -5,6 +5,7 @@
  */
 
 function orderByDistance(trainingDataWithDistances) {
+  // making a copy of the training data to avoid adding new points to the original data
   const sortedData = [...trainingDataWithDistances];
   sortedData.sort((a, b) => a.distance - b.distance);
   return sortedData;
