@@ -5,6 +5,7 @@
  */
 
 function orderByDistance(trainingDataWithDistances) {
-  trainingDataWithDistances.sort((a, b) => a.distance - b.distance);
-  return trainingDataWithDistances;
+  const sortedData = [...trainingDataWithDistances];
+  sortedData.sort((a, b) => a.distance - b.distance);
+  return sortedData;
 }
