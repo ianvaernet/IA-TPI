@@ -17,6 +17,5 @@ function classifyNewInstance(orderedTrainingData, newInstance, k) {
   let maxFrecuency = Math.max(...labels.map((label) => label.count));
   let mostFrequentLabelIndex = labels.findIndex((label) => label.count === maxFrecuency);
   newInstance.label = labels[mostFrequentLabelIndex].label;
-  console.log(labels);
   return newInstance;
 }
