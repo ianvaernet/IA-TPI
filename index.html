@@ -1,53 +1,66 @@
 <html>
   <head>
-    <script src="plotly.min.js"></script>
-    <script src="plotly-locale-es.js"></script>
     <script src="knn.js"></script>
     <script src="calculateDistances.js"></script>
     <script src="orderByDistance.js"></script>
     <script src="classifyNewInstance.js"></script>
     <script src="formatDataToPlot.js"></script>
+    <link rel="stylesheet" href="css/bulma.min.css" />
+    <link rel="stylesheet" href="css/bulma-slider.min.css" />
+    <script src="js/bulma-slider.min.js"></script>
+    <script src="js/plotly.min.js"></script>
+    <script src="js/plotly-locale-es.js"></script>
+    <script src="table.js"></script>
+    <script src="k.js"></script>
   </head>
   <body>
-    <div id="chart" style="height: 50vh; width: 50vw; margin-top: 25vh; margin-left: 25vw"></div>
-    <script type="text/javascript">
-      let trainingData = [
-        { x: 1, y: 1, label: 'Etiqueta 1' },
-        { x: 2, y: 2, label: 'Etiqueta 1' },
-        { x: 1.5, y: 6, label: 'Etiqueta 1' },
-        { x: 3, y: 8, label: 'Etiqueta 1' },
-        { x: 6, y: 14, label: 'Etiqueta 2' },
-        { x: 7, y: 12, label: 'Etiqueta 2' },
-        { x: 8, y: 15, label: 'Etiqueta 2' },
-        { x: 6.5, y: 13, label: 'Etiqueta 2' },
-      ];
-      let newInstance = { x: 4.5, y: 10 };
-      let k = 3;
-      let data = knn(trainingData, newInstance, k);
-
-      Plotly.newPlot(
-        document.getElementById('chart'),
-        formatDataToPlot(data),
-        {
-          margin: { t: 35 },
-          dragmode: 'pan',
-          hovermode: 'closest',
-        },
-        {
-          scrollZoom: true,
-          locale: 'es',
-          displaylogo: false,
-          responsive: true,
-          modeBarButtonsToRemove: [
-            'zoom2d',
-            'select2d',
-            'lasso2d',
-            'hoverClosestCartesian',
-            'hoverCompareCartesian',
-            'autoScale2d',
-          ],
-        }
-      );
-    </script>
+    <div class="container">
+      <section class="hero">
+        <div class="hero-body">
+          <div class="container">
+            <h1 class="title">KNN Algorithm</h1>
+            <!-- <h2 class="subtitle"></h2> -->
+          </div>
+        </div>
+      </section>
+      <div>
+        <!-- Display the dataset currently on the plot -->
+        <table
+          class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth has-text-centered mb-5"
+        >
+          <thead class="has-background-primary has-text-white">
+            <tr>
+              <th colspan="3">Dataset</th>
+            </tr>
+            <tr>
+              <th>X</th>
+              <th>Y</th>
+              <th>Label</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+      <!-- k slider -->
+      <div>
+        <div class="field" step="1" min="1" max="10">
+          <label id="k-label" class="label">K = 3</label>
+          <div class="control">
+            <input
+              id="k-slider"
+              type="range"
+              value="3"
+              step="1"
+              min="1"
+              max="10"
+              class="slider is-fullwidth"
+              onchange="updateK"
+            />
+          </div>
+        </div>
+      </div>
+      <div id="chart"></div>
+    </div>
+    <script src="main.js"></script>
   </body>
 </html>
