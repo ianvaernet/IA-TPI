@@ -18,7 +18,7 @@ function setPlotLabels(labels) {
   labels.forEach((label, i) => (labelColor[label] = colors[i % colors.length]));
 }
 
-function formatDataToPlot(dataset) {
+function formatDataToPlot(dataset, d, k) {
   let groupedData = Object.keys(labelColor).map(label => ({
     x: [],
     y: [],
@@ -37,5 +37,19 @@ function formatDataToPlot(dataset) {
       groupedData[index].y.push(element.y);
     }
   });
+  for (let i = 0; i < k; i++) {
+    const data = dataset[i];
+    groupedData.push({
+      x: [data.x, d.x],
+      y: [data.y, d.y],
+      mode: "lines",
+      line: {
+        width: 2,
+        color: labelColor[data.label]
+      },
+      showlegend: false,
+      hoverinfo: "none"
+    });
+  }
   return groupedData;
 }
