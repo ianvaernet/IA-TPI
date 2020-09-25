@@ -10,6 +10,7 @@ let trainingData = [
   { x: 6.5, y: 5.5, label: "Etiqueta 2" }
 ];
 let newInstance = { x: 4.5, y: 2.5 };
+setPlotLabels(["Etiqueta 1", "Etiqueta 2"]);
 
 const plotLayout = {
   height: 800,
@@ -68,8 +69,8 @@ updateKNN();
 
 function updateKNN() {
   let k = getK();
-  let data = knn(trainingData, newInstance, k);
-  Plotly.react(plot, formatDataToPlot(data), plotLayout, plotlyOptions);
+  let { P, d } = knn(trainingData, newInstance, k);
+  Plotly.react(plot, formatDataToPlot([...P, d]), plotLayout, plotlyOptions);
 }
 
 function onMouseDown(evt) {
