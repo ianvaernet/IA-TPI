@@ -21,5 +21,5 @@ function updateK() {
 }
 
 function getK() {
-  return slider.value;
+  return parseInt(slider.value);
 }
