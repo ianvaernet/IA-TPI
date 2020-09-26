@@ -17,7 +17,7 @@ function updateKLabel() {
 
 function updateK() {
   updateKLabel();
-  updateKNN();
+  updateTrainingData();
 }
 
 function getK() {

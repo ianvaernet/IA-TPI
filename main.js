@@ -23,6 +23,7 @@ function updateTrainingData(newTrainingData) {
   setPlotLabels(labels);
   updateTable(trainingData);
   updateKNN();
+  updateCanvas()
 }
 
 setupK();
