@@ -107,8 +107,8 @@ function onMouseEvent(evt) {
   updateKNN({ x, y });
 }
 
-function setupPlot() {
-  Plotly.newPlot(plot, [], getLayout([]), plotlyOptions);
+function setupPlot(trainingData) {
+  Plotly.newPlot(plot, trainingData, getLayout(trainingData), plotlyOptions);
   // get the actual rect, not the whole div
   const rect = document.querySelector(".nsewdrag.drag");
   rect.addEventListener("mousemove", onMouseMove);

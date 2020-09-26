@@ -24,7 +24,7 @@ function formatDataToPlot(dataset, d, k) {
     y: [],
     mode: "markers",
     marker: {
-      size: 12,
+      size: 8,
       color: labelColor[label]
     },
     name: label,

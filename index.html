@@ -1,5 +1,6 @@
 <html>
   <head>
+    <title>TPI IA - 2020</title>
     <script src="knn.js"></script>
     <script src="calculateDistances.js"></script>
     <script src="orderByDistance.js"></script>
@@ -12,6 +13,9 @@
     <script src="js/plotly-locale-es.js"></script>
     <script src="table.js"></script>
     <script src="k.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/neat-csv.min.js"></script>
+    <script src="dataset.js"></script>
   </head>
   <body>
     <div class="container">
@@ -23,11 +27,25 @@
           </div>
         </div>
       </section>
+      <!-- k slider -->
+      <div>
+        <div class="field" step="1" min="1" max="10">
+          <label id="k-label" class="label">K = 3</label>
+          <div class="control">
+            <input id="k-slider" type="range" value="3" step="1" min="1" max="10" class="slider is-fullwidth" onchange="updateK" />
+          </div>
+        </div>
+      </div>
+      <div id="chart"></div>
+      <div class="mb-2">
+        <button class="button mr-2" onclick="loadDatasetFromURL('datasets/dataset01.csv')">1</button>
+        <button class="button mr-2" onclick="loadDatasetFromURL('datasets/dataset02.csv')">2</button>
+        <button class="button mr-2" onclick="loadDatasetFromURL('datasets/dataset03.csv')">3</button>
+        <button class="button" onclick="loadDatasetFromURL('datasets/dataset04.csv')">4</button>
+      </div>
       <div>
         <!-- Display the dataset currently on the plot -->
-        <table
-          class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth has-text-centered mb-5"
-        >
+        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth has-text-centered mb-5">
           <thead class="has-background-primary has-text-white">
             <tr>
               <th colspan="3">Dataset</th>
@@ -41,25 +59,6 @@
           <tbody id="table-body"></tbody>
         </table>
       </div>
-      <!-- k slider -->
-      <div>
-        <div class="field" step="1" min="1" max="10">
-          <label id="k-label" class="label">K = 3</label>
-          <div class="control">
-            <input
-              id="k-slider"
-              type="range"
-              value="3"
-              step="1"
-              min="1"
-              max="10"
-              class="slider is-fullwidth"
-              onchange="updateK"
-            />
-          </div>
-        </div>
-      </div>
-      <div id="chart"></div>
     </div>
     <script src="plot.js"></script>
     <script src="main.js"></script>
