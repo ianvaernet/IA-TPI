@@ -1,6 +1,7 @@
 <html>
   <head>
     <title>TPI IA - 2020</title>
+    <link rel="stylesheet" href="css/main.css" />
     <script src="knn.js"></script>
     <script src="calculateDistances.js"></script>
     <script src="orderByDistance.js"></script>
@@ -36,7 +37,10 @@
           </div>
         </div>
       </div>
-      <div id="chart"></div>
+      <div>
+        <canvas id="canvas" width="800px" height="800px"></canvas>
+        <div id="chart"></div>
+      </div>
       <div class="mb-2">
         <button class="button mr-2" onclick="loadDatasetFromURL('datasets/dataset01.csv')">1</button>
         <button class="button mr-2" onclick="loadDatasetFromURL('datasets/dataset02.csv')">2</button>
@@ -60,6 +64,7 @@
         </table>
       </div>
     </div>
+    <script src="canvas.js"></script>
     <script src="plot.js"></script>
     <script src="main.js"></script>
   </body>

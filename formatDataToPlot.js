@@ -37,7 +37,8 @@ function formatDataToPlot(dataset, d, k) {
       groupedData[index].y.push(element.y);
     }
   });
-  for (let i = 0; i < k; i++) {
+  const max = dataset.length < k ? dataset.length : k;
+  for (let i = 0; i < max; i++) {
     const data = dataset[i];
     groupedData.push({
       x: [data.x, d.x],
