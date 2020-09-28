@@ -9,15 +9,22 @@ let trainingData = [
   { x: 8, y: 7.5, label: "Etiqueta 2" },
   { x: 6.5, y: 5.5, label: "Etiqueta 2" }
 ];
-setPlotLabels(["Etiqueta 1", "Etiqueta 2"]);
 
-function updateKNN(newInstance) {
+function updateKNN(newInstance = { x: 0, y: 0 }) {
   const k = getK();
   const { P, d } = knn(trainingData, newInstance, k);
   updatePlot(P, d, k);
 }
 
-updateTable(trainingData);
+function updateTrainingData(newTrainingData) {
+  if (newTrainingData) trainingData = newTrainingData;
+  const labels = [];
+  trainingData.forEach(d => (labels.includes(d.label) ? {} : labels.push(d.label)));
+  setPlotLabels(labels);
+  updateTable(trainingData);
+  updateKNN();
+}
+
 setupK();
-setupPlot();
-updateKNN({ x: 0, y: 0 });
+setupPlot(trainingData);
+updateTrainingData();
