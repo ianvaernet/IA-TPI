@@ -65,8 +65,13 @@ function getLayout(data) {
   };
 }
 
-function updatePlot(P, d) {
-  Plotly.react(plot, formatDataToPlot([...P, d]), getLayout(P), plotlyOptions);
+function updatePlot(P, d, k) {
+  Plotly.react(
+    plot,
+    formatDataToPlot([...P, d], d, k),
+    getLayout(P),
+    plotlyOptions
+  );
 }
 
 function onMouseDown(evt) {

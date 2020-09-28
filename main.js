@@ -14,7 +14,7 @@ setPlotLabels(["Etiqueta 1", "Etiqueta 2"]);
 function updateKNN(newInstance) {
   const k = getK();
   const { P, d } = knn(trainingData, newInstance, k);
-  updatePlot(P, d);
+  updatePlot(P, d, k);
 }
 
 updateTable(trainingData);
