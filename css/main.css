@@ -3,3 +3,9 @@
   z-index: 1;
   pointer-events: none;
 }
+.inline {
+  display: inline-flex;
+}
+#knn-table {
+  margin-top: 100px;
+}

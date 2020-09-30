@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>TPI IA - 2020</title>
+    <title>TPI IA 2020: KNN</title>
     <link rel="stylesheet" href="css/main.css" />
     <script src="knn.js"></script>
     <script src="calculateDistances.js"></script>
@@ -23,7 +23,7 @@
       <section class="hero">
         <div class="hero-body">
           <div class="container">
-            <h1 class="title">KNN Algorithm</h1>
+            <h1 class="title">Algoritmo KNN</h1>
             <!-- <h2 class="subtitle"></h2> -->
           </div>
         </div>
@@ -33,13 +33,37 @@
         <div class="field" step="1" min="1" max="10">
           <label id="k-label" class="label">K = 3</label>
           <div class="control">
-            <input id="k-slider" type="range" value="3" step="1" min="1" max="10" class="slider is-fullwidth" onchange="updateK" />
+            <input
+              id="k-slider"
+              type="range"
+              value="3"
+              step="1"
+              min="1"
+              max="10"
+              class="slider is-fullwidth"
+              onchange="updateK"
+            />
           </div>
         </div>
       </div>
-      <div>
+      <div class="inline">
         <canvas id="canvas" width="800px" height="800px"></canvas>
         <div id="chart"></div>
+        <!-- Display the k nearest neighbours -->
+        <table class="table is-bordered is-striped is-narrow is-hoverable has-text-centered" id="knn-table">
+          <thead class="has-background-primary has-text-white">
+            <tr>
+              <th colspan="4">K vecinos próximos</th>
+            </tr>
+            <tr>
+              <th>X</th>
+              <th>Y</th>
+              <th>Etiqueta</th>
+              <th>Distancia</th>
+            </tr>
+          </thead>
+          <tbody id="knn-table-body"></tbody>
+        </table>
       </div>
       <div class="mb-2">
         <button class="button mr-2" onclick="loadDatasetFromURL('datasets/dataset01.csv')">1</button>
@@ -49,7 +73,9 @@
       </div>
       <div>
         <!-- Display the dataset currently on the plot -->
-        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth has-text-centered mb-5">
+        <table
+          class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth has-text-centered mb-5"
+        >
           <thead class="has-background-primary has-text-white">
             <tr>
               <th colspan="3">Dataset</th>
@@ -57,7 +83,7 @@
             <tr>
               <th>X</th>
               <th>Y</th>
-              <th>Label</th>
+              <th>Etiqueta</th>
             </tr>
           </thead>
           <tbody id="table-body"></tbody>
