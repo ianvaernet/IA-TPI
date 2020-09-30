@@ -8,9 +8,11 @@
 class Main {
   constructor() {
     this.plot = new Plot();
-    this.tables = new Tables();
+    const floatParser = v => parseFloat(v).toFixed(4);
+    this.datasetTable = new Table('dataset-table-body', ["x", "y", "label"], { x: floatParser, y: floatParser });
+    this.knnTable = new Table('knn-table-body', ["x", "y", "label", "distance"], { x: floatParser, y: floatParser, distance: floatParser });
     this.canvas = new Canvas(this, this.plot);
-    this.dataset = new Dataset(this.plot, this.tables, this, this.canvas);
+    this.dataset = new Dataset(this.plot, this.datasetTable, this, this.canvas);
     this.k = new K(this, this.canvas, this.dataset);
     this.events = new Events(this, this.plot, this.dataset, this.k, this.canvas);
     this.dataset.updateTrainingData(
@@ -88,7 +90,7 @@ class Main {
   updateKNN(trainingData, newInstance, k) {
     const { P, d } = this.knn(trainingData, newInstance, k);
     this.plot.updatePlot(P, d, k);
-    this.tables.updateKnnTable(P, k);
+    this.knnTable.updateTable(P.splice(0, k));
   }
 }
 

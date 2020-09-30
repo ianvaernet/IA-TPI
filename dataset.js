@@ -1,7 +1,7 @@
 class Dataset {
-  constructor(plot, tables, main, canvas) {
+  constructor(plot, datasetTable, main, canvas) {
     this.plot = plot;
-    this.tables = tables;
+    this.datasetTable = datasetTable;
     this.main = main;
     this.canvas = canvas;
     this.addDatasetButton = document.getElementById('add-dataset-button');
@@ -20,7 +20,7 @@ class Dataset {
     trainingData.forEach((d) => (labels.includes(d.label) ? {} : labels.push(d.label)));
     this.plot.setPlotLabels(labels);
     this.plot.updateTrainingDataToPlot(trainingData);
-    this.tables.updateDatasetTable(trainingData);
+    this.datasetTable.updateTable(trainingData);
     this.main.updateKNN(trainingData, { x: 0, y: 0 }, k);
     this.canvas.updateCanvas(trainingData, k);
   }
