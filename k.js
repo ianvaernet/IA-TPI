@@ -1,27 +1,34 @@
 const sliderId = 'k-slider';
-const labelId = 'k-label';
+const inputId = 'k-input';
 
 class K {
   constructor(main, canvas, dataset) {
     this.slider = document.getElementById(sliderId);
-    this.label = document.getElementById(labelId);
+    this.input = document.getElementById(inputId);
     this.main = main;
     this.canvas = canvas;
     this.dataset = dataset;
-    this.updateKLabel();
+    this.k = parseInt(this.slider.value);
   }
 
-  updateKLabel(k = this.getK()) {
-    this.label.innerText = `K = ${k}`;
+  onKInputUpdate() {
+    this.k = this.input.value;
+    this.slider.value = this.k;
+    this.updateK(this.k);
   }
 
-  updateK() {
-    this.updateKLabel();
-    this.main.updateKNN(this.dataset.getTrainingData(), { x: 0, y: 0 }, this.getK());
-    this.canvas.updateCanvas(this.dataset.getTrainingData(), this.getK());
+  onKSliderUpdate() {
+    this.k = this.slider.value;
+    this.input.value = this.k;
+    this.updateK(this.k);
+  }
+
+  updateK(k) {
+    this.main.updateKNN(this.dataset.getTrainingData(), { x: 0, y: 0 }, k);
+    this.canvas.updateCanvas(this.dataset.getTrainingData(), k);
   }
 
   getK() {
-    return parseInt(this.slider.value);
+    return this.k;
   }
 }

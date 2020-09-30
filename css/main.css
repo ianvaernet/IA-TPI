@@ -9,3 +9,10 @@
 #knn-table {
   margin-top: 100px;
 }
+#k-label {
+  max-width: 35px;
+  margin-right: 3px;
+}
+#k-input {
+  max-width: 100px;
+}

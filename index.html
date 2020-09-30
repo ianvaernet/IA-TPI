@@ -26,10 +26,28 @@
           </div>
         </div>
       </section>
-      <!-- k slider -->
       <div>
+        <!-- k input -->
+        <div class="field is-horizontal">
+          <!-- <div class="columns"> -->
+          <div class="field-label is-medium" id="k-label">
+            <label class="label">K =</label>
+          </div>
+          <div class="field-body">
+            <div class="field is-narrow">
+              <input
+                id="k-input"
+                class="input is-primary is-medium"
+                type="number"
+                value="3"
+                onchange="main.k.onKInputUpdate(main.k)"
+              />
+            </div>
+          </div>
+          <!-- </div> -->
+        </div>
+        <!-- k slider -->
         <div class="field" step="1" min="1" max="10">
-          <label id="k-label" class="label">K = 3</label>
           <div class="control">
             <input
               id="k-slider"
@@ -39,7 +57,7 @@
               min="1"
               max="10"
               class="slider is-fullwidth"
-              onchange="main.k.updateK(main.k)"
+              onchange="main.k.onKSliderUpdate(main.k)"
             />
           </div>
         </div>
