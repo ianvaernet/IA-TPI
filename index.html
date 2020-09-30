@@ -2,21 +2,20 @@
   <head>
     <title>TPI IA 2020: KNN</title>
     <link rel="stylesheet" href="css/main.css" />
-    <script src="knn.js"></script>
-    <script src="calculateDistances.js"></script>
-    <script src="orderByDistance.js"></script>
-    <script src="classifyNewInstance.js"></script>
-    <script src="formatDataToPlot.js"></script>
     <link rel="stylesheet" href="css/bulma.min.css" />
     <link rel="stylesheet" href="css/bulma-slider.min.css" />
     <script src="js/bulma-slider.min.js"></script>
     <script src="js/plotly.min.js"></script>
     <script src="js/plotly-locale-es.js"></script>
-    <script src="table.js"></script>
-    <script src="k.js"></script>
     <script src="js/axios.min.js"></script>
     <script src="js/neat-csv.min.js"></script>
+    <script src="table.js"></script>
+    <script src="k.js"></script>
     <script src="dataset.js"></script>
+    <script src="events.js"></script>
+    <script src="canvas.js"></script>
+    <script src="plot.js"></script>
+    <script src="main.js"></script>
   </head>
   <body>
     <div class="container">
@@ -41,7 +40,7 @@
               min="1"
               max="10"
               class="slider is-fullwidth"
-              onchange="updateK"
+              onchange="main.k.updateK(main.k)"
             />
           </div>
         </div>
@@ -66,10 +65,30 @@
         </table>
       </div>
       <div class="mb-2">
-        <button class="button mr-2" onclick="loadDatasetFromURL('datasets/dataset01.csv')">1</button>
-        <button class="button mr-2" onclick="loadDatasetFromURL('datasets/dataset02.csv')">2</button>
-        <button class="button mr-2" onclick="loadDatasetFromURL('datasets/dataset03.csv')">3</button>
-        <button class="button" onclick="loadDatasetFromURL('datasets/dataset04.csv')">4</button>
+        <button
+          class="button mr-2"
+          onclick="main.dataset.loadDatasetFromURL('datasets/dataset01.csv', main.k.getK())"
+        >
+          1
+        </button>
+        <button
+          class="button mr-2"
+          onclick="main.dataset.loadDatasetFromURL('datasets/dataset02.csv', main.k.getK())"
+        >
+          2
+        </button>
+        <button
+          class="button mr-2"
+          onclick="main.dataset.loadDatasetFromURL('datasets/dataset03.csv', main.k.getK())"
+        >
+          3
+        </button>
+        <button
+          class="button"
+          onclick="main.dataset.loadDatasetFromURL('datasets/dataset04.csv', main.k.getK())"
+        >
+          4
+        </button>
       </div>
       <div>
         <!-- Display the dataset currently on the plot -->
@@ -90,8 +109,5 @@
         </table>
       </div>
     </div>
-    <script src="canvas.js"></script>
-    <script src="plot.js"></script>
-    <script src="main.js"></script>
   </body>
 </html>
