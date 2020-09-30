@@ -1,14 +1,16 @@
 const fps = 60;
 
 class Events {
-  constructor(main, plot, dataset, k) {
+  constructor(main, plot, dataset, k, canvas) {
     this.main = main;
     this.plot = plot;
     this.k = k;
     this.dataset = dataset;
+    this.canvas = canvas;
     this.rect = document.querySelector('.nsewdrag.drag');
     this.rect.addEventListener('mousemove', (e) => this.onMouseMove(e));
     this.rect.addEventListener('mousedown', (e) => this.onMouseDown(e));
+    this.plot.chart.on('plotly_relayout', () => this.onZoom());
     this.nextUpdate = 0;
     this.timeout = null;
   }
@@ -41,5 +43,9 @@ class Events {
     const x = xaxis.p2c(evt.x - l);
     const y = yaxis.p2c(evt.y - t);
     this.main.updateKNN(this.dataset.getTrainingData(), { x, y }, this.k.getK());
+  }
+
+  onZoom() {
+    this.canvas.updateCanvas(this.dataset.getTrainingData(), this.k.getK());
   }
 }

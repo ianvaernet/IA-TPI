@@ -12,7 +12,7 @@ class Main {
     this.canvas = new Canvas(this, this.plot);
     this.dataset = new Dataset(this.plot, this.tables, this, this.canvas);
     this.k = new K(this, this.canvas, this.dataset);
-    this.events = new Events(this, this.plot, this.dataset, this.k);
+    this.events = new Events(this, this.plot, this.dataset, this.k, this.canvas);
     this.dataset.updateTrainingData(
       [
         { x: 1, y: -6.5, label: 'Etiqueta 1' },
