@@ -33,7 +33,30 @@ class Plot {
   constructor() {
     this.chart = document.getElementById(chartId);
     this.labelColor = {};
-    Plotly.newPlot(chart, [], this.getLayout([]), plotlyOptions);
+    this.layout = {
+      height: 800,
+      width: 800,
+      xaxis: {
+        nticks: 21,
+        range: [-15, 15],
+      },
+      yaxis: {
+        nticks: 23,
+        range: [-15, 15],
+        scaleanchor: 'x',
+        scaleratio: 1,
+      },
+      legend: {
+        y: 0.5,
+        yref: 'paper',
+        font: {
+          family: 'Avenir, Helvetica, Arial, sans-serif',
+          size: 20,
+          color: 'grey',
+        },
+      },
+    };
+    Plotly.newPlot(chart, [], this.layout, plotlyOptions);
   }
 
   setPlotLabels(labels) {
@@ -41,7 +64,7 @@ class Plot {
     labels.forEach((label, i) => (this.labelColor[label] = colors[i % colors.length]));
   }
 
-  getLayout(data) {
+  updateLayout(data) {
     const xaxis = { min: Number.MAX_SAFE_INTEGER, max: Number.MIN_SAFE_INTEGER };
     const yaxis = { min: Number.MAX_SAFE_INTEGER, max: Number.MIN_SAFE_INTEGER };
     data.forEach((d) => {
@@ -56,37 +79,12 @@ class Plot {
     xaxis.max += xDiff;
     yaxis.min -= yDiff;
     yaxis.max += yDiff;
-    return {
-      height: 800,
-      width: 800,
-      xaxis: {
-        nticks: 21,
-        range: [xaxis.min, xaxis.max],
-      },
-      yaxis: {
-        nticks: 23,
-        range: [yaxis.min, yaxis.max],
-        scaleanchor: 'x',
-        scaleratio: 1,
-      },
-      // dragmode: "pan",
-      // May not be useful if we update the newInstance to the mouse position
-      // since it will be always hovering the newInstance point
-      // hovermode: "closest",
-      legend: {
-        y: 0.5,
-        yref: 'paper',
-        font: {
-          family: 'Avenir, Helvetica, Arial, sans-serif',
-          size: 20,
-          color: 'grey',
-        },
-      },
-    };
+    this.layout.xaxis.range = [xaxis.min, xaxis.max];
+    this.layout.yaxis.range = [yaxis.min, yaxis.max];
   }
 
   updatePlot(P, d, k) {
-    Plotly.react(this.chart, this.formatNewInstanceToPlot(P, d, k), this.getLayout(P), plotlyOptions);
+    Plotly.react(this.chart, this.formatNewInstanceToPlot(P, d, k), this.layout, plotlyOptions);
   }
 
   updateTrainingDataToPlot(trainingData) {
@@ -109,6 +107,7 @@ class Plot {
       }
     });
     this.plotedTrainingData = plotableData;
+    this.updateLayout(trainingData);
   }
 
   formatNewInstanceToPlot(P, d, k) {
