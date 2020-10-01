@@ -55,7 +55,7 @@ class Canvas {
     this.updatingCanvas = false;
     // is there anything to draw?
     if (this.dirty) {
-      this.updatingCanvas(...this.dirty);
+      this.updateCanvas(...this.dirty);
     }
   }
 }
