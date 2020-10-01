@@ -26,23 +26,11 @@ const plotlyOptions = {
     ],
   ],
 };
-const colors = [
-  '#636EFA',
-  '#EF553B',
-  '#00CC96',
-  '#AB63FA',
-  '#FFA15A',
-  '#19D3F3',
-  '#FF6692',
-  '#B6E880',
-  '#FF97FF',
-  '#FECB52',
-];
 
 class Plot {
-  constructor() {
+  constructor(labels) {
+    this.labels = labels;
     this.chart = document.getElementById(chartId);
-    this.labelColor = {};
     this.layout = {
       height: 800,
       width: 800,
@@ -70,11 +58,6 @@ class Plot {
     this.setMode('knn');
   }
 
-  setPlotLabels(labels) {
-    this.labelColor = {};
-    labels.forEach((label, i) => (this.labelColor[label] = colors[i % colors.length]));
-  }
-
   updateLayout(data) {
     const xaxis = { min: Number.MAX_SAFE_INTEGER, max: Number.MIN_SAFE_INTEGER };
     const yaxis = { min: Number.MAX_SAFE_INTEGER, max: Number.MIN_SAFE_INTEGER };
@@ -99,13 +82,13 @@ class Plot {
   }
 
   updateTrainingDataToPlot(trainingData) {
-    const plotableData = Object.keys(this.labelColor).map((label) => ({
+    const plotableData = this.labels.getLabels().map((label) => ({
       x: [],
       y: [],
       mode: 'markers',
       marker: {
         size: 8,
-        color: this.labelColor[label],
+        color: this.labels.getColor(label),
       },
       name: label,
       hoverinfo: 'none',
@@ -137,7 +120,7 @@ class Plot {
         mode: 'lines',
         line: {
           width: 2,
-          color: this.labelColor[data.label],
+          color: this.labels.getColor(data.label),
         },
         showlegend: false,
         hoverinfo: 'none',
