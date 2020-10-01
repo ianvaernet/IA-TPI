@@ -1,9 +1,10 @@
 class Dataset {
-  constructor(plot, datasetTable, main, canvas) {
+  constructor(plot, datasetTable, main, canvas, labels) {
     this.plot = plot;
     this.datasetTable = datasetTable;
     this.main = main;
     this.canvas = canvas;
+    this.labels = labels;
     this.addDatasetButton = document.getElementById('add-dataset-button');
     this.fileInput = document.getElementById('file-input');
     this.addDatasetButton.addEventListener('click', () => this.fileInput.click());
@@ -18,7 +19,7 @@ class Dataset {
     this.trainingData = trainingData;
     const labels = [];
     trainingData.forEach((d) => (labels.includes(d.label) ? {} : labels.push(d.label)));
-    this.plot.setPlotLabels(labels);
+    this.labels.setLabels(labels);
     this.plot.updateTrainingDataToPlot(trainingData);
     this.datasetTable.updateTable(trainingData);
     this.main.updateKNN(trainingData, { x: 0, y: 0 }, k);
