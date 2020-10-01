@@ -1,10 +1,11 @@
 const canvasId = 'canvas';
 
 class Canvas {
-  constructor(main, plot) {
+  constructor(main, plot, labels) {
     this.canvas = document.getElementById(canvasId);
     this.main = main;
     this.plot = plot;
+    this.labels = labels;
   }
 
   toggleCanvas(value) {
@@ -35,7 +36,7 @@ class Canvas {
         const x = xaxis.p2c(xi + hdWidth);
         const y = yaxis.p2c(yi + hdHeight);
         const { d } = this.main.knn(trainingData, { x, y }, k);
-        ctx.fillStyle = this.plot.labelColor[d.label] + '40';
+        ctx.fillStyle = this.labels.getColor(d.label) + '40';
         ctx.fillRect(left + xi, top + yi, dWidth, dHeight);
         const now = Date.now();
         if (now - lastFrame > 1000) {
