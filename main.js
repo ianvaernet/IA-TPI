@@ -15,14 +15,14 @@ class Main {
     this.events = new Events(this, this.plot, this.dataset, this.k, this.canvas);
     this.dataset.updateTrainingData(
       [
-        { x: 1, y: -6.5, label: 'Etiqueta 1' },
-        { x: 2, y: -5.5, label: 'Etiqueta 1' },
-        { x: 1.5, y: -1.5, label: 'Etiqueta 1' },
-        { x: 3, y: 1.5, label: 'Etiqueta 1' },
-        { x: 6, y: 6.5, label: 'Etiqueta 2' },
-        { x: 7, y: 4.5, label: 'Etiqueta 2' },
-        { x: 8, y: 7.5, label: 'Etiqueta 2' },
-        { x: 6.5, y: 5.5, label: 'Etiqueta 2' },
+        { x: 1, y: -6.5, label: 'E1' },
+        { x: 2, y: -5.5, label: 'E1' },
+        { x: 1.5, y: -1.5, label: 'E1' },
+        { x: 3, y: 1.5, label: 'E1' },
+        { x: 6, y: 6.5, label: 'E2' },
+        { x: 7, y: 4.5, label: 'E2' },
+        { x: 8, y: 7.5, label: 'E2' },
+        { x: 6.5, y: 5.5, label: 'E2' },
       ],
       this.k.getK()
     );
