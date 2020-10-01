@@ -28,8 +28,9 @@ const plotlyOptions = {
 };
 
 class Plot {
-  constructor(labels) {
+  constructor(labels, knnTable) {
     this.labels = labels;
+    this.knnTable = knnTable;
     this.chart = document.getElementById(chartId);
     this.layout = {
       height: 800,
@@ -78,7 +79,9 @@ class Plot {
   }
 
   updatePlot(P, d, k) {
-    Plotly.react(this.chart, this.formatNewInstanceToPlot(P, d, k), this.layout, plotlyOptions);
+    if (this.mode === 'knn')
+      Plotly.react(this.chart, this.formatNewInstanceToPlot(P, d, k), this.layout, plotlyOptions);
+    else Plotly.react(this.chart, this.plotedTrainingData, this.layout, plotlyOptions);
   }
 
   updateTrainingDataToPlot(trainingData) {
@@ -101,7 +104,6 @@ class Plot {
       }
     });
     this.plotedTrainingData = plotableData;
-    this.updateLayout(trainingData);
   }
 
   formatNewInstanceToPlot(P, d, k) {
@@ -136,7 +138,8 @@ class Plot {
     }
     if (mode === 'pan') {
       document.getElementsByClassName('draglayer')[0].style.cursor = 'move';
-      Plotly.react(this.chart, this.plotedTrainingData, this.layout, plotlyOptions);
+      this.updatePlot();
+      this.knnTable.updateTable([]);
     }
   }
 }

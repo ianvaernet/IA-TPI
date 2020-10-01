@@ -15,14 +15,18 @@ class Dataset {
     return this.trainingData;
   }
 
-  updateTrainingData(trainingData, k) {
+  updateTrainingData(trainingData, k, updateLayout) {
     this.trainingData = trainingData;
     const labels = [];
     trainingData.forEach((d) => (labels.includes(d.label) ? {} : labels.push(d.label)));
     this.labels.setLabels(labels);
     this.plot.updateTrainingDataToPlot(trainingData);
+    if (updateLayout) this.plot.updateLayout(trainingData);
     this.datasetTable.updateTable(trainingData);
-    this.main.updateKNN(trainingData, { x: 0, y: 0 }, k);
+    if (updateLayout) {
+      if (this.plot.mode === 'knn') this.main.updateKNN(trainingData, { x: 0, y: 0 }, k);
+      else this.plot.updatePlot();
+    }
     this.canvas.updateCanvas(trainingData, k);
   }
 
@@ -45,7 +49,8 @@ class Dataset {
     const dataset = await csv(data, { separator });
     this.updateTrainingData(
       dataset.map((d) => ({ x: parseFloat(d.x1), y: parseFloat(d.x2), label: d.Clase })),
-      this.main.k.getK()
+      this.main.k.getK(),
+      true
     );
   }
 }

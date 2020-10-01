@@ -18,6 +18,11 @@ class Events {
   onMouseDown(evt) {
     if (this.plot.mode === 'knn') {
       const newInstance = this.getMouseCoords(evt);
+      const trainingData = this.dataset.getTrainingData();
+      const k = this.k.getK();
+      const newInstanceClassified = this.main.knn(trainingData, newInstance, k).d;
+      trainingData.push(newInstanceClassified);
+      this.dataset.updateTrainingData(trainingData, k, false);
     }
   }
 
