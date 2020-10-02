@@ -9,15 +9,24 @@ class Main {
   constructor() {
     const labels = new Labels();
     const floatParser = (v) => parseFloat(v).toFixed(4);
-    this.datasetTable = new Table('dataset-table-body', ['x', 'y', 'label'], {
-      x: floatParser,
-      y: floatParser,
-    });
+    this.datasetTable = new Table(
+      this,
+      'dataset-table-body',
+      ['x', 'y', 'label'],
+      {
+        x: floatParser,
+        y: floatParser,
+      },
+      null,
+      true
+    );
     this.knnTable = new Table(
+      this,
       'knn-table-body',
       ['x', 'y', 'label', 'distance'],
       { x: floatParser, y: floatParser, distance: floatParser },
-      labels
+      labels,
+      false
     );
     this.plot = new Plot(labels, this.knnTable);
     this.canvas = new Canvas(this, this.plot, labels);

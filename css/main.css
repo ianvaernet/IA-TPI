@@ -25,3 +25,11 @@
   margin-top: 60px !important;
   margin-right: 90px !important;
 }
+
+.td-remove-row {
+  width: 20px;
+}
+
+.td-editable:hover {
+  cursor: cell;
+}
