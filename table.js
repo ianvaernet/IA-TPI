@@ -55,8 +55,7 @@ class Table {
 
   updateCell(rowIndex, columnIndex, value) {
     const trainingData = this.main.dataset.getTrainingData();
-    const columns = ['x', 'y', 'label'];
-    const column = columns[columnIndex];
+    const column = this.columns[columnIndex];
     //checks if x or y is a valid number, otherwise doesn't edit the cell value
     if (column === 'label' || parseFloat(value) || parseFloat(value) === 0)
       trainingData[rowIndex][column] = parseFloat(value);
