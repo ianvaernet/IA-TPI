@@ -20,6 +20,13 @@ class Table {
       td.setAttribute('contentEditable', true);
       td.classList.add('td-editable');
       td.addEventListener('focusout', (evt) => this.updateCell(rowIndex, columnIndex, evt.target.innerText));
+      td.addEventListener('keydown', (evt) => {
+        if (evt.key === 'Enter') {
+          evt.preventDefault();
+          evt.target.blur();
+          this.updateCell(rowIndex, columnIndex, evt.target.innerText);
+        }
+      });
     }
     td.innerText = value;
     tr.appendChild(td);
@@ -48,21 +55,11 @@ class Table {
 
   updateCell(rowIndex, columnIndex, value) {
     const trainingData = this.main.dataset.getTrainingData();
-    let column;
-    switch (columnIndex) {
-      case 0:
-        column = 'x';
-        break;
-      case 1:
-        column = 'y';
-        break;
-      case 2:
-        column = 'label';
-        break;
-    }
+    const columns = ['x', 'y', 'label'];
+    const column = columns[columnIndex];
     //checks if x or y is a valid number, otherwise doesn't edit the cell value
     if (column === 'label' || parseFloat(value) || parseFloat(value) === 0)
-      trainingData[rowIndex][column] = value;
+      trainingData[rowIndex][column] = parseFloat(value);
     this.main.dataset.updateTrainingData(trainingData, this.main.k.getK(), true);
   }
 

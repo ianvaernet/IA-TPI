@@ -21,9 +21,9 @@ class Dataset {
     trainingData.forEach((d) => (labels.includes(d.label) ? {} : labels.push(d.label)));
     this.labels.setLabels(labels);
     this.plot.updateTrainingDataToPlot(trainingData);
-    if (updateLayout) this.plot.updateLayout(trainingData);
     this.datasetTable.updateTable(trainingData);
     if (updateLayout) {
+      this.plot.updateLayout(trainingData);
       if (this.plot.mode === 'knn') this.main.updateKNN(trainingData, { x: 0, y: 0 }, k);
       else this.plot.updatePlot();
     }
