@@ -8,13 +8,21 @@
 class Main {
   constructor() {
     const labels = new Labels();
-    this.plot = new Plot(labels);
-    const floatParser = v => parseFloat(v).toFixed(4);
-    this.datasetTable = new Table('dataset-table-body', ["x", "y", "label"], { x: floatParser, y: floatParser });
-    this.knnTable = new Table('knn-table-body', ["x", "y", "label", "distance"], { x: floatParser, y: floatParser, distance: floatParser }, labels);
+    const floatParser = (v) => parseFloat(v).toFixed(4);
+    this.datasetTable = new Table('dataset-table-body', ['x', 'y', 'label'], {
+      x: floatParser,
+      y: floatParser,
+    });
+    this.knnTable = new Table(
+      'knn-table-body',
+      ['x', 'y', 'label', 'distance'],
+      { x: floatParser, y: floatParser, distance: floatParser },
+      labels
+    );
+    this.plot = new Plot(labels, this.knnTable);
     this.canvas = new Canvas(this, this.plot, labels);
     this.dataset = new Dataset(this.plot, this.datasetTable, this, this.canvas, labels);
-    this.k = new K(this, this.canvas, this.dataset);
+    this.k = new K(this, this.plot, this.canvas, this.dataset);
     this.events = new Events(this, this.plot, this.dataset, this.k, this.canvas);
     this.dataset.updateTrainingData(
       [
@@ -27,7 +35,8 @@ class Main {
         { x: 8, y: 7.5, label: 'E2' },
         { x: 6.5, y: 5.5, label: 'E2' },
       ],
-      this.k.getK()
+      this.k.getK(),
+      true
     );
   }
   /**
