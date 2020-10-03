@@ -2,18 +2,28 @@ const chartId = 'chart';
 const plotlyOptions = {
   scrollZoom: true,
   locale: 'es',
-  displayModeBar: false,
+  displayModeBar: true,
   displaylogo: false,
   responsive: true,
-  modeBarButtonsToRemove: [
-    'zoom2d',
-    'select2d',
-    'lasso2d',
-    'hoverClosestCartesian',
-    'hoverCompareCartesian',
-    'autoScale2d',
-    'toImage',
-    'toggleSpikelines',
+  modeBarButtons: [
+    [
+      {
+        name: 'K vecinos cercanos',
+        active: 'true',
+        icon: Plotly.Icons.tooltip_compare,
+        click: () => main.plot.setMode('knn'),
+      },
+      {
+        name: 'Modo Panorámica',
+        icon: Plotly.Icons.pan,
+        click: () => main.plot.setMode('pan'),
+      },
+      // 'pan2d',
+      'zoomIn2d',
+      'zoomOut2d',
+      'resetScale2d',
+      // 'toImage',
+    ],
   ],
 };
 
@@ -45,6 +55,7 @@ class Plot {
       },
     };
     Plotly.newPlot(chart, [], this.layout, plotlyOptions);
+    this.setMode('knn');
   }
 
   updateLayout(data) {
@@ -116,5 +127,16 @@ class Plot {
       });
     }
     return plotableData;
+  }
+
+  setMode(mode) {
+    this.mode = mode;
+    if (mode === 'knn') {
+      document.getElementsByClassName('draglayer')[0].style.cursor = 'none';
+    }
+    if (mode === 'pan') {
+      document.getElementsByClassName('draglayer')[0].style.cursor = 'move';
+      Plotly.react(this.chart, this.plotedTrainingData, this.layout, plotlyOptions);
+    }
   }
 }
