@@ -1,10 +1,11 @@
 const canvasId = 'canvas';
 
 class Canvas {
-  constructor(main, plot) {
+  constructor(main, plot, labels) {
     this.canvas = document.getElementById(canvasId);
     this.main = main;
     this.plot = plot;
+    this.labels = labels;
   }
 
   toggleCanvas(value) {
@@ -13,6 +14,14 @@ class Canvas {
   }
 
   async updateCanvas(trainingData, k) {
+    // avoid multiple drawings, since I have no idea how to stop the previously running function
+    if (this.updatingCanvas) {
+      // when drawing finishes, the last dirty values will be used to draw the next time
+      this.dirty = [trainingData, k];
+      return;
+    }
+    this.dirty = null;
+    this.updatingCanvas = true;
     const ctx = canvas.getContext('2d');
     const xaxis = this.plot.chart._fullLayout.xaxis;
     const yaxis = this.plot.chart._fullLayout.yaxis;
@@ -27,7 +36,6 @@ class Canvas {
     const hdWidth = dWidth / 2;
     const hdHeight = dHeight / 2;
     let lastFrame = 0;
-    const startTime = Date.now();
     for (let i = 0; i < delta; i++) {
       for (let j = 0; j < delta; j++) {
         const xi = i * dWidth;
@@ -35,7 +43,7 @@ class Canvas {
         const x = xaxis.p2c(xi + hdWidth);
         const y = yaxis.p2c(yi + hdHeight);
         const { d } = this.main.knn(trainingData, { x, y }, k);
-        ctx.fillStyle = this.plot.labelColor[d.label] + '40';
+        ctx.fillStyle = this.labels.getColor(d.label) + '40';
         ctx.fillRect(left + xi, top + yi, dWidth, dHeight);
         const now = Date.now();
         if (now - lastFrame > 1000) {
@@ -45,5 +53,10 @@ class Canvas {
       }
     }
     ctx.strokeRect(left, top, width, height);
+    this.updatingCanvas = false;
+    // is there anything to draw?
+    if (this.dirty) {
+      this.updateCanvas(...this.dirty);
+    }
   }
 }

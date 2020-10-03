@@ -16,33 +16,37 @@ class Events {
   }
 
   onMouseDown(evt) {
-    this.onMouseEvent(evt);
+    if (this.plot.mode === 'knn') {
+      const newInstance = this.getMouseCoords(evt);
+    }
   }
 
   onMouseMove(evt) {
-    // check for too many updates, may be too heavy to execute on all move events
-    const now = Date.now();
-    if (this.nextUpdate > now) {
-      if (this.timeout) clearTimeout(this.timeout);
-      // Timeout helps if mouse stops moving and position is not centered
-      this.timeout = setTimeout(() => this.onMouseEvent(evt), this.nextUpdate - now);
-      return;
+    if (this.plot.mode === 'knn') {
+      // check for too many updates, may be too heavy to execute on all move events
+      const now = Date.now();
+      if (this.nextUpdate > now) {
+        if (this.timeout) clearTimeout(this.timeout);
+        // Timeout helps if mouse stops moving and position is not centered
+        this.timeout = setTimeout(() => {
+          const newInstance = this.getMouseCoords(evt);
+          this.main.updateKNN(this.dataset.getTrainingData(), newInstance, this.k.getK());
+        }, this.nextUpdate - now);
+        return;
+      }
+      this.nextUpdate = now + 1000 / fps;
     }
-    this.nextUpdate = now + 1000 / fps;
   }
 
-  /**
-   * Convert from mouse position to coordinates position
-   * https://codepen.io/etpinard/pen/EyydEj
-   */
-  onMouseEvent(evt) {
+  // Convert from mouse position to coordinates position
+  getMouseCoords(evt) {
     const xaxis = this.plot.chart._fullLayout.xaxis;
     const yaxis = this.plot.chart._fullLayout.yaxis;
     const l = this.plot.chart.getBoundingClientRect().x + this.plot.chart._fullLayout.margin.l;
     const t = this.plot.chart.getBoundingClientRect().y + this.plot.chart._fullLayout.margin.t;
     const x = xaxis.p2c(evt.x - l);
     const y = yaxis.p2c(evt.y - t);
-    this.main.updateKNN(this.dataset.getTrainingData(), { x, y }, this.k.getK());
+    return { x, y };
   }
 
   onZoom() {

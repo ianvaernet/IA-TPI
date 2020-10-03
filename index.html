@@ -14,6 +14,7 @@
     <script src="events.js"></script>
     <script src="canvas.js"></script>
     <script src="plot.js"></script>
+    <script src="labels.js"></script>
   </head>
   <body>
     <div class="container">
@@ -28,7 +29,6 @@
       <div>
         <!-- k input -->
         <div class="field is-horizontal">
-          <!-- <div class="columns"> -->
           <div class="field-label is-medium" id="k-label">
             <label class="label">K =</label>
           </div>
@@ -40,12 +40,10 @@
                 type="number"
                 value="3"
                 min="1"
-                max="10"
-                onchange="main.k.onKInputUpdate()"
+                onchange="main.k.updateK(this.value)"
               />
             </div>
           </div>
-          <!-- </div> -->
         </div>
         <!-- k slider -->
         <div class="field" step="1" min="1" max="10">
@@ -58,7 +56,7 @@
               min="1"
               max="10"
               class="slider is-fullwidth"
-              oninput="main.k.onKSliderUpdate()"
+              oninput="main.k.updateK(this.value)"
             />
           </div>
         </div>
@@ -67,12 +65,16 @@
         <canvas id="canvas" width="800px" height="800px"></canvas>
         <div id="chart"></div>
         <!-- Display the k nearest neighbours -->
-        <table class="table is-bordered is-striped is-narrow is-hoverable has-text-centered" id="knn-table">
+        <table
+          class="table is-bordered is-striped is-narrow is-hoverable has-text-centered"
+          id="knn-table"
+        >
           <thead class="has-background-primary has-text-white">
             <tr>
-              <th colspan="4">K vecinos próximos</th>
+              <th colspan="5">K vecinos próximos</th>
             </tr>
             <tr>
+              <th width="1%">N°</th>
               <th>X</th>
               <th>Y</th>
               <th>Etiqueta</th>
@@ -102,13 +104,20 @@
           Dataset 3
         </button>
         <button
-          class="button"
+          class="button mr-2"
           onclick="main.dataset.loadDatasetFromURL('datasets/dataset04.csv', main.k.getK())"
         >
           Dataset 4
         </button>
-        <button class="button is-link" id="add-dataset-button">Cargar dataset</button>
-        <input id="file-input" type="file" accept=".csv, .txt" style="display: none" />
+        <button class="button is-link" id="add-dataset-button">
+          Cargar dataset
+        </button>
+        <input
+          id="file-input"
+          type="file"
+          accept=".csv, .txt"
+          style="display: none"
+        />
       </div>
       <div>
         <!-- Display the dataset currently on the plot -->
@@ -117,15 +126,16 @@
         >
           <thead class="has-background-primary has-text-white">
             <tr>
-              <th colspan="3">Dataset</th>
+              <th colspan="4">Dataset</th>
             </tr>
             <tr>
+              <th width="1%">N°</th>
               <th>X</th>
               <th>Y</th>
               <th>Etiqueta</th>
             </tr>
           </thead>
-          <tbody id="table-body"></tbody>
+          <tbody id="dataset-table-body"></tbody>
         </table>
       </div>
     </div>

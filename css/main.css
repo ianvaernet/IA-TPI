@@ -3,16 +3,25 @@
   z-index: 1;
   pointer-events: none;
 }
+
 .inline {
   display: inline-flex;
 }
+
 #knn-table {
   margin-top: 100px;
 }
+
 #k-label {
   max-width: 35px;
   margin-right: 3px;
 }
+
 #k-input {
   max-width: 100px;
+}
+
+.modebar {
+  margin-top: 60px !important;
+  margin-right: 90px !important;
 }

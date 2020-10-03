@@ -7,22 +7,25 @@
 
 class Main {
   constructor() {
-    this.plot = new Plot();
-    this.tables = new Tables();
-    this.canvas = new Canvas(this, this.plot);
-    this.dataset = new Dataset(this.plot, this.tables, this, this.canvas);
+    const labels = new Labels();
+    this.plot = new Plot(labels);
+    const floatParser = v => parseFloat(v).toFixed(4);
+    this.datasetTable = new Table('dataset-table-body', ["x", "y", "label"], { x: floatParser, y: floatParser });
+    this.knnTable = new Table('knn-table-body', ["x", "y", "label", "distance"], { x: floatParser, y: floatParser, distance: floatParser }, labels);
+    this.canvas = new Canvas(this, this.plot, labels);
+    this.dataset = new Dataset(this.plot, this.datasetTable, this, this.canvas, labels);
     this.k = new K(this, this.canvas, this.dataset);
     this.events = new Events(this, this.plot, this.dataset, this.k, this.canvas);
     this.dataset.updateTrainingData(
       [
-        { x: 1, y: -6.5, label: 'Etiqueta 1' },
-        { x: 2, y: -5.5, label: 'Etiqueta 1' },
-        { x: 1.5, y: -1.5, label: 'Etiqueta 1' },
-        { x: 3, y: 1.5, label: 'Etiqueta 1' },
-        { x: 6, y: 6.5, label: 'Etiqueta 2' },
-        { x: 7, y: 4.5, label: 'Etiqueta 2' },
-        { x: 8, y: 7.5, label: 'Etiqueta 2' },
-        { x: 6.5, y: 5.5, label: 'Etiqueta 2' },
+        { x: 1, y: -6.5, label: 'E1' },
+        { x: 2, y: -5.5, label: 'E1' },
+        { x: 1.5, y: -1.5, label: 'E1' },
+        { x: 3, y: 1.5, label: 'E1' },
+        { x: 6, y: 6.5, label: 'E2' },
+        { x: 7, y: 4.5, label: 'E2' },
+        { x: 8, y: 7.5, label: 'E2' },
+        { x: 6.5, y: 5.5, label: 'E2' },
       ],
       this.k.getK()
     );
@@ -88,7 +91,7 @@ class Main {
   updateKNN(trainingData, newInstance, k) {
     const { P, d } = this.knn(trainingData, newInstance, k);
     this.plot.updatePlot(P, d, k);
-    this.tables.updateKnnTable(P, k);
+    this.knnTable.updateTable(P.splice(0, k));
   }
 }
 
