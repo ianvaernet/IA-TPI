@@ -28,6 +28,7 @@ class Dataset {
       else this.plot.updatePlot();
     }
     this.canvas.updateCanvas(trainingData, k);
+    this.main.calculatePrecision(trainingData);
   }
 
   loadLocalDataset() {

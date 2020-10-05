@@ -33,3 +33,13 @@
 .td-editable:hover {
   cursor: cell;
 }
+
+#dataset-table-body > tr > td {
+  vertical-align: middle;
+}
+
+#precision-table-body > tr > td {
+  padding: 0;
+  height: 37.78px;
+  vertical-align: middle;
+}

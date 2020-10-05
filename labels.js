@@ -12,18 +12,19 @@ const colors = [
 ];
 
 class Labels {
-  constructor(labels) {
-    this.labels = labels;
+  constructor(labels, labelsColors) {
+    labelsColors ? (this.colors = labelsColors) : (this.colors = colors);
+    if (labels) this.setLabels(labels);
   }
 
-  getLabels(){
+  getLabels() {
     return this.labels;
   }
 
   setLabels(labels) {
     this.labels = labels;
     this.labelColor = {};
-    labels.forEach((label, i) => (this.labelColor[label] = colors[i % colors.length]));
+    labels.forEach((label, i) => (this.labelColor[label] = this.colors[i % this.colors.length]));
   }
 
   getColor(label) {
