@@ -23,8 +23,10 @@ class Labels {
 
   setLabels(labels) {
     this.labels = labels;
-    this.labelColor = {};
-    labels.forEach((label, i) => (this.labelColor[label] = this.colors[i % this.colors.length]));
+    this.labelColor = { NaN: '#000000' };
+    labels.forEach((label, i) => {
+      if (label !== 'NaN') this.labelColor[label] = this.colors[i % this.colors.length];
+    });
   }
 
   getColor(label) {

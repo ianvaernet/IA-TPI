@@ -42,7 +42,13 @@ class Canvas {
         const yi = j * dHeight;
         const x = xaxis.p2c(xi + hdWidth);
         const y = yaxis.p2c(yi + hdHeight);
-        const { d } = this.main.knn(trainingData, { x, y }, k);
+        const { d } = this.main.knn(
+          trainingData,
+          { x, y },
+          k,
+          this.main.getClassificationMethod(),
+          this.main.getTieBreakerMethod()
+        );
         ctx.fillStyle = this.labels.getColor(d.label) + '40';
         ctx.fillRect(left + xi, top + yi, dWidth, dHeight);
         const now = Date.now();

@@ -13,6 +13,12 @@ class Events {
     this.plot.chart.on('plotly_relayout', () => this.onZoom());
     this.nextUpdate = 0;
     this.timeout = null;
+    document
+      .getElementById('select-classification-method')
+      .addEventListener('change', () => this.main.updateClassificationMethod());
+    document
+      .getElementById('select-tie-breaker-method')
+      .addEventListener('change', () => this.main.updateClassificationMethod());
   }
 
   onMouseDown(evt) {
@@ -20,7 +26,13 @@ class Events {
       const newInstance = this.getMouseCoords(evt);
       const trainingData = this.dataset.getTrainingData();
       const k = this.k.getK();
-      const newInstanceClassified = this.main.knn(trainingData, newInstance, k).d;
+      const newInstanceClassified = this.main.knn(
+        trainingData,
+        newInstance,
+        k,
+        this.main.getClassificationMethod(),
+        this.main.getTieBreakerMethod()
+      ).d;
       trainingData.push(newInstanceClassified);
       this.dataset.updateTrainingData(trainingData, k, false);
     }
