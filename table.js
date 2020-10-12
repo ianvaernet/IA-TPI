@@ -63,7 +63,7 @@ class Table {
       if (parseFloat(value) || parseFloat(value) === 0) trainingData[rowIndex][column] = parseFloat(value);
     }
 
-    this.main.dataset.updateTrainingData(trainingData, this.main.k.getK(), true);
+    this.main.dataset.updateTrainingData(trainingData, this.main.k.value, true);
   }
 
   addRemoveRowButton(tr, rowIndex) {
@@ -75,7 +75,7 @@ class Table {
     button.addEventListener('click', () => {
       const trainingData = this.main.dataset.getTrainingData();
       trainingData.splice(rowIndex, 1);
-      this.main.dataset.updateTrainingData(trainingData, this.main.k.getK(), true);
+      this.main.dataset.updateTrainingData(trainingData, this.main.k.value, true);
       tr.remove();
     });
     td.appendChild(button);

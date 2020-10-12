@@ -38,10 +38,14 @@ class Plot {
       xaxis: {
         nticks: 21,
         range: [-15, 15],
+        showgird: false,
+        zeroline: false,
       },
       yaxis: {
         nticks: 23,
         range: [-15, 15],
+        showgird: false,
+        zeroline: false,
         scaleanchor: 'x',
         scaleratio: 1,
       },

@@ -25,7 +25,7 @@ class Events {
     if (this.plot.mode === 'knn') {
       const newInstance = this.getMouseCoords(evt);
       const trainingData = this.dataset.getTrainingData();
-      const k = this.k.getK();
+      const k = this.k.value;
       const newInstanceClassified = this.main.knn(
         trainingData,
         newInstance,
@@ -47,7 +47,7 @@ class Events {
         // Timeout helps if mouse stops moving and position is not centered
         this.timeout = setTimeout(() => {
           const newInstance = this.getMouseCoords(evt);
-          this.main.updateKNN(this.dataset.getTrainingData(), newInstance, this.k.getK());
+          this.main.updateKNN(this.dataset.getTrainingData(), newInstance, this.k.value);
         }, this.nextUpdate - now);
         return;
       }
@@ -67,6 +67,6 @@ class Events {
   }
 
   onZoom() {
-    this.canvas.updateCanvas(this.dataset.getTrainingData(), this.k.getK());
+    this.canvas.updateCanvas(this.dataset.getTrainingData(), this.k.value);
   }
 }

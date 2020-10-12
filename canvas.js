@@ -6,6 +6,8 @@ class Canvas {
     this.main = main;
     this.plot = plot;
     this.labels = labels;
+    this.deltaX = 100;
+    this.deltaY = 100;
   }
 
   toggleCanvas(value) {
@@ -22,6 +24,7 @@ class Canvas {
     }
     this.dirty = null;
     this.updatingCanvas = true;
+    this.lastData = [trainingData, k];
     const ctx = canvas.getContext('2d');
     const xaxis = this.plot.chart._fullLayout.xaxis;
     const yaxis = this.plot.chart._fullLayout.yaxis;
@@ -30,15 +33,15 @@ class Canvas {
     const width = this.plot.chart._fullLayout._size.w;
     const height = this.plot.chart._fullLayout._size.h;
     ctx.clearRect(0, 0, 800, 800);
-    const delta = 100;
-    const dWidth = width / delta;
-    const dHeight = height / delta;
+    const dWidth = width / this.deltaX;
+    const dHeight = height / this.deltaY;
     const hdWidth = dWidth / 2;
     const hdHeight = dHeight / 2;
     let lastFrame = 0;
-    for (let i = 0; i < delta; i++) {
-      for (let j = 0; j < delta; j++) {
-        const xi = i * dWidth;
+    let drawY = true;
+    for (let i = 0; i < this.deltaX; i++) {
+      const xi = i * dWidth;
+      for (let j = 0; j < this.deltaY; j++) {
         const yi = j * dHeight;
         const x = xaxis.p2c(xi + hdWidth);
         const y = yaxis.p2c(yi + hdHeight);
@@ -56,7 +59,12 @@ class Canvas {
           lastFrame = now;
           await new Promise((res) => setTimeout(res, 0));
         }
+        if (drawY) {
+          this.drawLine(ctx, left, top + yi, left + width, top + yi);
+        }
       }
+      drawY = false;
+      this.drawLine(ctx, left + xi, top, left + xi, top + height);
     }
     ctx.strokeRect(left, top, width, height);
     this.updatingCanvas = false;
@@ -64,5 +72,18 @@ class Canvas {
     if (this.dirty) {
       this.updateCanvas(...this.dirty);
     }
+  }
+
+  drawLine(ctx, startX, startY, endX, endY) {
+    ctx.beginPath();
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(endX, endY);
+    ctx.stroke();
+  }
+
+  updateGrid(gridX, gridY) {
+    this.deltaX = gridX;
+    this.deltaY = gridY;
+    this.updateCanvas(...this.lastData);
   }
 }

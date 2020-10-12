@@ -51,9 +51,10 @@ class Main {
         { x: 8, y: 7.5, label: 'E2' },
         { x: 6.5, y: 5.5, label: 'E2' },
       ],
-      this.k.getK(),
+      this.k.value,
       true
     );
+    this.grid = new Grid(this.canvas);
   }
   /**
    * @param {DataLabeled[]} trainingData
@@ -211,11 +212,11 @@ class Main {
     this.updateKNN(
       this.dataset.trainingData,
       { x: 0, y: 0 },
-      this.k.getK(),
+      this.k.value,
       this.getClassificationMethod(),
       this.getTieBreakerMethod()
     );
-    this.canvas.updateCanvas(this.dataset.trainingData, this.k.getK());
+    this.canvas.updateCanvas(this.dataset.trainingData, this.k.value);
     this.calculatePrecision(this.dataset.trainingData);
   }
 

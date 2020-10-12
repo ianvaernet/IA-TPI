@@ -51,7 +51,7 @@ class Dataset {
     console.log(dataset);
     this.updateTrainingData(
       dataset.map((d) => ({ x: parseFloat(d.x1), y: parseFloat(d.x2), label: d.Clase })),
-      this.main.k.getK(),
+      this.main.k.value,
       true
     );
   }
