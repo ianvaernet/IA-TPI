@@ -28,6 +28,13 @@ class Main {
       labels,
       false
     );
+    this.precisionTable = new Table(
+      this,
+      'precision-table-body',
+      ['correctClassifications', 'precision'],
+      undefined,
+      new Labels(['optimum'], ['#FFDD57|1'])
+    );
     this.plot = new Plot(labels, this.knnTable);
     this.canvas = new Canvas(this, this.plot, labels);
     this.dataset = new Dataset(this.plot, this.datasetTable, this, this.canvas, labels);
@@ -80,7 +87,9 @@ class Main {
    * @returns {DataLabeled}
    */
   classifyNewInstance(sortedTrainingData, newInstance, k) {
-    let labels = []; // [{label: 'etiqueta', count: n}]
+    const labels = []; // [{label: 'etiqueta', count: n}]
+    const newInstanceCopy = { ...newInstance };
+
     if (k > sortedTrainingData.length) k = sortedTrainingData.length;
     for (let i = 0; i < k; i++) {
       let index = labels.findIndex((element) => element.label === sortedTrainingData[i].label);
@@ -89,8 +98,8 @@ class Main {
     }
     let maxFrecuency = Math.max(...labels.map((label) => label.count));
     let mostFrequentLabelIndex = labels.findIndex((label) => label.count === maxFrecuency);
-    newInstance.label = labels[mostFrequentLabelIndex].label;
-    return newInstance;
+    newInstanceCopy.label = labels[mostFrequentLabelIndex].label;
+    return newInstanceCopy;
   }
 
   /**
@@ -110,6 +119,39 @@ class Main {
     const { P, d } = this.knn(trainingData, newInstance, k);
     this.plot.updatePlot(P, d, k);
     this.knnTable.updateTable(P.splice(0, k));
+  }
+
+  calculatePrecision(trainingData) {
+    const distanceMatrix = []; //contains for each node the distance to others nodes
+    const correctClassifications = []; //contains for each k the number of correct classifications
+    let optimumK = 0;
+
+    trainingData.forEach((node, index) => {
+      let trainingDataWithoutCurrentNode = [...trainingData];
+      trainingDataWithoutCurrentNode.splice(index, 1);
+      let trainingDataWithDistances = this.calculateDistances(trainingDataWithoutCurrentNode, node);
+      distanceMatrix.push(this.sortByDistance(trainingDataWithDistances));
+    });
+
+    for (let k = 0; k < trainingData.length - 1; k++) {
+      correctClassifications.push(0);
+      trainingData.forEach((node, index) => {
+        let nodeClassified = this.classifyNewInstance(distanceMatrix[index], node, k + 1);
+        if (nodeClassified.label === trainingData[index].label) correctClassifications[k]++;
+      });
+      if (correctClassifications[k] > correctClassifications[optimumK]) optimumK = k;
+    }
+
+    this.precisionTable.updateTable(
+      correctClassifications.map((value) => {
+        return {
+          correctClassifications: value,
+          precision: ((100 * value) / trainingData.length).toFixed(2),
+          label: value === correctClassifications[optimumK] ? 'optimum' : null,
+        };
+      })
+    );
+    return optimumK;
   }
 }
 

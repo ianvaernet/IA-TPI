@@ -37,7 +37,9 @@ class Table {
     rows.forEach((row, rowIndex) => {
       const tr = document.createElement('tr');
       if (this.labels && row.label) {
-        tr.style.backgroundColor = this.labels.getColor(row.label) + '40';
+        tr.style.backgroundColor = this.labels.getColor(row.label).endsWith('|1')
+          ? this.labels.getColor(row.label).slice(0, -2)
+          : this.labels.getColor(row.label) + '40';
       }
       this.addTableData(tr, rowIndex + 1);
       this.columns.forEach((column, columnIndex) => {
@@ -56,9 +58,13 @@ class Table {
   updateCell(rowIndex, columnIndex, value) {
     const trainingData = this.main.dataset.getTrainingData();
     const column = this.columns[columnIndex];
-    //checks if x or y is a valid number, otherwise doesn't edit the cell value
-    if (column === 'label' || parseFloat(value) || parseFloat(value) === 0)
-      trainingData[rowIndex][column] = parseFloat(value);
+    if (column === 'label') {
+      trainingData[rowIndex][column] = value;
+    } else {
+      //checks if x or y is a valid number, otherwise doesn't edit the cell value
+      if (parseFloat(value) || parseFloat(value) === 0) trainingData[rowIndex][column] = parseFloat(value);
+    }
+
     this.main.dataset.updateTrainingData(trainingData, this.main.k.getK(), true);
   }
 
