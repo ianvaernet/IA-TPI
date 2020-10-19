@@ -13,7 +13,7 @@ const colors = [
 
 class Labels {
   constructor(labels, labelsColors) {
-    labelsColors ? (this.colors = labelsColors) : (this.colors = colors);
+    this.colors = labelsColors || colors;
     if (labels) this.setLabels(labels);
   }
 

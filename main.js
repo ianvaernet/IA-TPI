@@ -141,8 +141,6 @@ class Main {
       });
       if (correctClassifications[k] > correctClassifications[optimumK]) optimumK = k;
     }
-    this.correctClassifications = correctClassifications;
-    this.optimumK = optimumK;
 
     this.precisionTable.updateTable(
       correctClassifications.map((value) => {
