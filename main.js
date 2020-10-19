@@ -188,7 +188,8 @@ class Main {
           this.getClassificationMethod(),
           this.getTieBreakerMethod()
         );
-        if (nodeClassified.label === trainingData[index].label) correctClassifications[k]++;
+        if (nodeClassified.label === trainingData[index].label && nodeClassified.label !== 'NaN')
+          correctClassifications[k]++;
       });
       if (correctClassifications[k] > correctClassifications[optimumK]) optimumK = k;
     }
