@@ -49,7 +49,7 @@ class Canvas {
           this.main.getClassificationMethod(),
           this.main.getTieBreakerMethod()
         );
-        ctx.fillStyle = this.labels.getColor(d.label) + '40';
+        ctx.fillStyle = this.labels.getColor(d.label, "40");
         ctx.fillRect(left + xi, top + yi, dWidth, dHeight);
         const now = Date.now();
         if (now - lastFrame > 1000) {
