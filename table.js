@@ -37,9 +37,7 @@ class Table {
     rows.forEach((row, rowIndex) => {
       const tr = document.createElement('tr');
       if (this.labels && row.label) {
-        tr.style.backgroundColor = this.labels.getColor(row.label).endsWith('|1')
-          ? this.labels.getColor(row.label).slice(0, -2)
-          : this.labels.getColor(row.label) + '40';
+        tr.style.backgroundColor = this.labels.getColor(row.label, "40");
       }
       this.addTableData(tr, rowIndex + 1);
       this.columns.forEach((column, columnIndex) => {

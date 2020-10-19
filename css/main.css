@@ -21,6 +21,16 @@
   max-width: 100px;
 }
 
+#method-label {
+  padding: 0;
+  text-align: justify;
+  line-height: normal;
+}
+
+#method-select {
+  margin-top: 4px;
+}
+
 .modebar {
   margin-top: 60px !important;
   margin-right: 90px !important;

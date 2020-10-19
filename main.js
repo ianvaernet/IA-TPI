@@ -63,7 +63,9 @@ class Main {
   calculateDistances(trainingData, newInstance) {
     for (let i = 0; i < trainingData.length; i++) {
       let element = trainingData[i];
-      let distance = (newInstance.x - trainingData[i].x) ** 2 + (newInstance.y - trainingData[i].y) ** 2;
+      let distance = Math.sqrt(
+        (newInstance.x - trainingData[i].x) ** 2 + (newInstance.y - trainingData[i].y) ** 2
+      );
       element.distance = distance;
     }
     return trainingData;
@@ -75,7 +77,7 @@ class Main {
    */
   sortByDistance(trainingDataWithDistances) {
     // making a copy of the training data to avoid adding new points to the original data
-    const sortedData = [...trainingDataWithDistances];
+    const sortedData = trainingDataWithDistances.filter((instance) => instance.label !== 'NaN');
     sortedData.sort((a, b) => a.distance - b.distance);
     return sortedData;
   }
@@ -86,19 +88,50 @@ class Main {
    * @param {Number} k
    * @returns {DataLabeled}
    */
-  classifyNewInstance(sortedTrainingData, newInstance, k) {
-    const labels = []; // [{label: 'etiqueta', count: n}]
+  classifyNewInstance(sortedTrainingData, newInstance, k, method, tieBreaker) {
+    const labels = []; // [{label: 'C1', count: n, distance: f}]
     const newInstanceCopy = { ...newInstance };
-
     if (k > sortedTrainingData.length) k = sortedTrainingData.length;
+
+    let zeroDistance = false;
     for (let i = 0; i < k; i++) {
+      if (sortedTrainingData[i].distance.toFixed(4) === 0 && method === 'distanceWeighted') {
+        zeroDistance = true;
+        var zeroDistanceLabel = sortedTrainingData[i].label;
+        break;
+      }
+
       let index = labels.findIndex((element) => element.label === sortedTrainingData[i].label);
-      if (index === -1) labels.push({ label: sortedTrainingData[i].label, count: 1 });
-      else labels[index].count++;
+      if (index === -1)
+        labels.push({
+          label: sortedTrainingData[i].label,
+          count: method === 'distanceWeighted' ? 1 / (sortedTrainingData[i].distance ** 2).toFixed(4) : 1,
+        });
+      else
+        labels[index].count +=
+          method === 'distanceWeighted' ? 1 / (sortedTrainingData[i].distance ** 2).toFixed(4) : 1;
     }
-    let maxFrecuency = Math.max(...labels.map((label) => label.count));
-    let mostFrequentLabelIndex = labels.findIndex((label) => label.count === maxFrecuency);
-    newInstanceCopy.label = labels[mostFrequentLabelIndex].label;
+
+    if (zeroDistance) {
+      newInstanceCopy.label = zeroDistanceLabel;
+      zeroDistance = false;
+    } else {
+      let maxFrecuency = 0,
+        maxFrecuencyIndex = 0,
+        maxFrecuencyDuplicated = false;
+      labels.forEach((label, index) => {
+        if (label.count > maxFrecuency) {
+          maxFrecuency = label.count;
+          maxFrecuencyIndex = index;
+          maxFrecuencyDuplicated = false;
+        } else if (label.count === maxFrecuency) maxFrecuencyDuplicated = true;
+      });
+      if (!maxFrecuencyDuplicated) newInstanceCopy.label = labels[maxFrecuencyIndex].label;
+      else {
+        if (tieBreaker === 'none') newInstanceCopy.label = 'NaN';
+      }
+    }
+
     return newInstanceCopy;
   }
 
@@ -108,15 +141,27 @@ class Main {
    * @param {Number} k
    * @returns {KNNResult}
    */
-  knn(trainingData, newInstance, k) {
+  knn(trainingData, newInstance, k, classificationMethod, tieBreakerMethod) {
     let trainingDataWithDistances = this.calculateDistances(trainingData, newInstance);
     let sortedTrainingDataWithDistances = this.sortByDistance(trainingDataWithDistances);
-    let newInstanceClassified = this.classifyNewInstance(sortedTrainingDataWithDistances, newInstance, k);
+    let newInstanceClassified = this.classifyNewInstance(
+      sortedTrainingDataWithDistances,
+      newInstance,
+      k,
+      classificationMethod,
+      tieBreakerMethod
+    );
     return { P: sortedTrainingDataWithDistances, d: newInstanceClassified };
   }
 
   updateKNN(trainingData, newInstance, k) {
-    const { P, d } = this.knn(trainingData, newInstance, k);
+    const { P, d } = this.knn(
+      trainingData,
+      newInstance,
+      k,
+      this.getClassificationMethod(),
+      this.getTieBreakerMethod()
+    );
     this.plot.updatePlot(P, d, k);
     this.knnTable.updateTable(P.splice(0, k));
   }
@@ -136,7 +181,13 @@ class Main {
     for (let k = 0; k < trainingData.length - 1; k++) {
       correctClassifications.push(0);
       trainingData.forEach((node, index) => {
-        let nodeClassified = this.classifyNewInstance(distanceMatrix[index], node, k + 1);
+        let nodeClassified = this.classifyNewInstance(
+          distanceMatrix[index],
+          node,
+          k + 1,
+          this.getClassificationMethod(),
+          this.getTieBreakerMethod()
+        );
         if (nodeClassified.label === trainingData[index].label) correctClassifications[k]++;
       });
       if (correctClassifications[k] > correctClassifications[optimumK]) optimumK = k;
@@ -152,6 +203,26 @@ class Main {
       })
     );
     return optimumK;
+  }
+
+  updateClassificationMethod() {
+    this.updateKNN(
+      this.dataset.trainingData,
+      { x: 0, y: 0 },
+      this.k.getK(),
+      this.getClassificationMethod(),
+      this.getTieBreakerMethod()
+    );
+    this.canvas.updateCanvas(this.dataset.trainingData, this.k.getK());
+    this.calculatePrecision(this.dataset.trainingData);
+  }
+
+  getClassificationMethod() {
+    return document.getElementById('select-classification-method').value;
+  }
+
+  getTieBreakerMethod() {
+    return document.getElementById('select-tie-breaker-method').value;
   }
 }
 
