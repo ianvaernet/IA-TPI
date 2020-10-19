@@ -39,12 +39,12 @@ class Canvas {
     const hdHeight = dHeight / 2;
     let lastFrame = 0;
     let drawY = true;
-    for (let i = 0; i < this.deltaX; i++) {
+    for (let i = 0; i <= this.deltaX; i++) {
       const xi = i * dWidth;
-      for (let j = 0; j < this.deltaY; j++) {
+      for (let j = 0; j <= this.deltaY; j++) {
         const yi = j * dHeight;
-        const x = xaxis.p2c(xi + hdWidth);
-        const y = yaxis.p2c(yi + hdHeight);
+        const x = xaxis.p2c(xi);
+        const y = yaxis.p2c(yi);
         const { d } = this.main.knn(
           trainingData,
           { x, y },
@@ -52,8 +52,8 @@ class Canvas {
           this.main.getClassificationMethod(),
           this.main.getTieBreakerMethod()
         );
-        ctx.fillStyle = this.labels.getColor(d.label, "40");
-        ctx.fillRect(left + xi, top + yi, dWidth, dHeight);
+        ctx.fillStyle = this.labels.getColor(d.label, '40');
+        ctx.fillRect(left + xi - hdWidth, top + yi - hdHeight, dWidth, dHeight);
         const now = Date.now();
         if (now - lastFrame > 1000) {
           lastFrame = now;
@@ -63,9 +63,11 @@ class Canvas {
           this.drawLine(ctx, left, top + yi, left + width, top + yi);
         }
       }
+
       drawY = false;
       this.drawLine(ctx, left + xi, top, left + xi, top + height);
     }
+
     ctx.strokeRect(left, top, width, height);
     this.updatingCanvas = false;
     // is there anything to draw?
