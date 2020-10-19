@@ -105,11 +105,11 @@ class Main {
       if (index === -1)
         labels.push({
           label: sortedTrainingData[i].label,
-          count: method === 'distanceWeighted' ? 1 / sortedTrainingData[i].distance.toFixed(4) : 1,
+          count: method === 'distanceWeighted' ? 1 / (sortedTrainingData[i].distance ** 2).toFixed(4) : 1,
         });
       else
         labels[index].count +=
-          method === 'distanceWeighted' ? 1 / sortedTrainingData[i].distance.toFixed(4) : 1;
+          method === 'distanceWeighted' ? 1 / (sortedTrainingData[i].distance ** 2).toFixed(4) : 1;
     }
 
     if (zeroDistance) {
