@@ -1,14 +1,13 @@
 const chartId = 'chart';
 const plotlyOptions = {
-  scrollZoom: true,
+  scrollZoom: false,
   locale: 'es',
-  displayModeBar: true,
   displaylogo: false,
   responsive: true,
   modeBarButtons: [
     [
       {
-        name: 'K vecinos cercanos',
+        name: 'K vecinos próximos',
         active: 'true',
         icon: Plotly.Icons.tooltip_compare,
         click: () => main.plot.setMode('knn'),
@@ -19,9 +18,9 @@ const plotlyOptions = {
         click: () => main.plot.setMode('pan'),
       },
       // 'pan2d',
-      'zoomIn2d',
-      'zoomOut2d',
-      'resetScale2d',
+      // 'zoomIn2d',
+      // 'zoomOut2d',
+      // 'resetScale2d',
       // 'toImage',
     ],
   ],
@@ -38,16 +37,14 @@ class Plot {
       xaxis: {
         nticks: 21,
         range: [-15, 15],
-        showgird: false,
+        showgrid: false,
         zeroline: false,
       },
       yaxis: {
         nticks: 23,
         range: [-15, 15],
-        showgird: false,
+        showgrid: false,
         zeroline: false,
-        scaleanchor: 'x',
-        scaleratio: 1,
       },
       legend: {
         y: 0.5,
