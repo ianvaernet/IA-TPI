@@ -4,8 +4,12 @@
   pointer-events: none;
 }
 
-.inline {
-  display: inline-flex;
+.text-center {
+  text-align: center;
+}
+
+.text-justify {
+  text-align: justify;
 }
 
 .font-18 {
@@ -17,7 +21,7 @@
 }
 
 #knn-table {
-  margin-top: 100px;
+  margin-top: 40px;
 }
 
 #k-label {
@@ -27,11 +31,6 @@
 
 #k-input {
   max-width: 100px;
-}
-
-.modebar {
-  margin-top: 67px !important;
-  margin-right: 90px !important;
 }
 
 .td-remove-row {

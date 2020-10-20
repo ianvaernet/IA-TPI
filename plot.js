@@ -32,8 +32,16 @@ class Plot {
     this.knnTable = knnTable;
     this.chart = document.getElementById(chartId);
     this.layout = {
+      autosize: false,
       height: 800,
       width: 800,
+      margin: {
+        l: 40,
+        r: 40,
+        b: 40,
+        t: 40,
+        pad: 8,
+      },
       xaxis: {
         nticks: 21,
         range: [-15, 15],
@@ -47,7 +55,9 @@ class Plot {
         zeroline: false,
       },
       legend: {
-        y: 0.5,
+        orientation: 'h',
+        x: -0.02,
+        y: -0.04,
         yref: 'paper',
         font: {
           family: 'Avenir, Helvetica, Arial, sans-serif',
