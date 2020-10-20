@@ -36,13 +36,7 @@
           </div>
           <div class="field-body">
             <div class="field is-narrow">
-              <input
-                id="k-input"
-                class="input is-primary is-medium"
-                type="number"
-                value="3"
-                min="1"
-              />
+              <input id="k-input" class="input is-primary is-medium" type="number" value="3" min="1" />
             </div>
           </div>
         </div>
@@ -63,8 +57,18 @@
       </div>
 
       <div class="columns">
+        <div class="column is-2">
+          <label class="checkbox font-18">
+            <input type="checkbox" class="zoom15" id="show-grid" checked />
+            Mostrar grid
+          </label>
+          <label class="checkbox font-18">
+            <input type="checkbox" class="zoom15" id="show-axis" />
+            Mostrar ejes guía
+          </label>
+        </div>
         <div class="field column mb-0" step="1" min="10" max="100">
-          <label id="grid-x-label" class="label">Grid X = 100</label>
+          <label id="grid-x-label" class="label">Divisiones del grid X = 100</label>
           <div class="control">
             <input
               id="grid-x-slider"
@@ -78,7 +82,7 @@
           </div>
         </div>
         <div class="field column" step="1" min="10" max="100">
-          <label id="grid-y-label" class="label">Grid Y = 100</label>
+          <label id="grid-y-label" class="label">Divisiones del grid Y = 100</label>
           <div class="control">
             <input
               id="grid-y-slider"

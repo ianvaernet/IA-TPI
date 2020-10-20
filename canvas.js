@@ -3,6 +3,7 @@ const canvasId = 'canvas';
 class Canvas {
   constructor(main, plot, labels) {
     this.canvas = document.getElementById(canvasId);
+    this.showGrid = document.getElementById('show-grid');
     this.main = main;
     this.plot = plot;
     this.labels = labels;
@@ -59,13 +60,13 @@ class Canvas {
           lastFrame = now;
           await new Promise((res) => setTimeout(res, 0));
         }
-        if (drawY) {
+        if (drawY && this.showGrid.checked) {
           this.drawLine(ctx, left, top + yi, left + width, top + yi);
         }
       }
 
       drawY = false;
-      this.drawLine(ctx, left + xi, top, left + xi, top + height);
+      if (this.showGrid.checked) this.drawLine(ctx, left + xi, top, left + xi, top + height);
     }
 
     ctx.strokeRect(left, top, width, height);
