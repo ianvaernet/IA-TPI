@@ -52,6 +52,9 @@ class Events {
         this.timeout = setTimeout(() => {
           const newInstance = this.getMouseCoords(evt);
           this.main.updateKNN(this.dataset.getTrainingData(), newInstance, this.k.value);
+          document.getElementById('mouse-position').innerHTML = `X: ${newInstance.x.toFixed(
+            4
+          )} | Y: ${newInstance.y.toFixed(4)}`;
         }, this.nextUpdate - now);
         return;
       }

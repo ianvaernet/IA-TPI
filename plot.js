@@ -149,6 +149,7 @@ class Plot {
     }
     if (mode === 'pan') {
       document.getElementsByClassName('draglayer')[0].style.cursor = 'move';
+      document.getElementById('mouse-position').innerHTML = '';
       this.updatePlot();
       this.knnTable.updateTable([]);
     }

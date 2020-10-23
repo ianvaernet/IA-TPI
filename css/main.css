@@ -21,7 +21,7 @@
 }
 
 #knn-table {
-  margin-top: 40px;
+  margin-top: 38px;
 }
 
 #k-label {
@@ -49,4 +49,16 @@
   padding: 0;
   height: 37.78px;
   vertical-align: middle;
+}
+
+.modebar-group {
+  margin-top: 5px !important;
+  margin-right: 35px !important;
+}
+
+#mouse-position {
+  position: absolute;
+  z-index: 10;
+  left: 45px;
+  margin-top: 10px;
 }
