@@ -89,7 +89,7 @@ class Main {
    * @param {Number} k
    * @returns {DataLabeled}
    */
-  classifyNewInstance(sortedTrainingData, newInstance, k, method, tieBreaker) {
+  classifyNewInstance(sortedTrainingData, newInstance, k, method) {
     const labels = []; // [{label: 'C1', count: n, distance: f}]
     const newInstanceCopy = { ...newInstance };
     if (k > sortedTrainingData.length) k = sortedTrainingData.length;
@@ -129,7 +129,7 @@ class Main {
       });
       if (!maxFrecuencyDuplicated) newInstanceCopy.label = labels[maxFrecuencyIndex].label;
       else {
-        if (tieBreaker === 'none') newInstanceCopy.label = 'NaN';
+        newInstanceCopy.label = 'NaN';
       }
     }
 
@@ -142,27 +142,20 @@ class Main {
    * @param {Number} k
    * @returns {KNNResult}
    */
-  knn(trainingData, newInstance, k, classificationMethod, tieBreakerMethod) {
+  knn(trainingData, newInstance, k, classificationMethod) {
     let trainingDataWithDistances = this.calculateDistances(trainingData, newInstance);
     let sortedTrainingDataWithDistances = this.sortByDistance(trainingDataWithDistances);
     let newInstanceClassified = this.classifyNewInstance(
       sortedTrainingDataWithDistances,
       newInstance,
       k,
-      classificationMethod,
-      tieBreakerMethod
+      classificationMethod
     );
     return { P: sortedTrainingDataWithDistances, d: newInstanceClassified };
   }
 
   updateKNN(trainingData, newInstance, k) {
-    const { P, d } = this.knn(
-      trainingData,
-      newInstance,
-      k,
-      this.getClassificationMethod(),
-      this.getTieBreakerMethod()
-    );
+    const { P, d } = this.knn(trainingData, newInstance, k, this.getClassificationMethod());
     this.plot.updatePlot(P, d, k);
     this.knnTable.updateTable(P.splice(0, k));
   }
@@ -186,8 +179,7 @@ class Main {
           distanceMatrix[index],
           node,
           k + 1,
-          this.getClassificationMethod(),
-          this.getTieBreakerMethod()
+          this.getClassificationMethod()
         );
         if (nodeClassified.label === trainingData[index].label && nodeClassified.label !== 'NaN')
           correctClassifications[k]++;
@@ -208,23 +200,13 @@ class Main {
   }
 
   updateClassificationMethod() {
-    this.updateKNN(
-      this.dataset.trainingData,
-      { x: 0, y: 0 },
-      this.k.value,
-      this.getClassificationMethod(),
-      this.getTieBreakerMethod()
-    );
+    this.updateKNN(this.dataset.trainingData, { x: 0, y: 0 }, this.k.value, this.getClassificationMethod());
     this.canvas.updateCanvas(this.dataset.trainingData, this.k.value);
     this.calculatePrecision(this.dataset.trainingData);
   }
 
   getClassificationMethod() {
     return document.getElementById('select-classification-method').value;
-  }
-
-  getTieBreakerMethod() {
-    return document.getElementById('select-tie-breaker-method').value;
   }
 }
 

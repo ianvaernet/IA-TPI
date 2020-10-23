@@ -17,9 +17,6 @@ class Events {
       .getElementById('select-classification-method')
       .addEventListener('change', () => this.main.updateClassificationMethod());
     document
-      .getElementById('select-tie-breaker-method')
-      .addEventListener('change', () => this.main.updateClassificationMethod());
-    document
       .getElementById('show-grid')
       .addEventListener('change', () => this.canvas.updateCanvas(...this.canvas.lastData));
     document.getElementById('show-axis').addEventListener('change', () => this.plot.toggleAxisGrid());
@@ -34,8 +31,7 @@ class Events {
         trainingData,
         newInstance,
         k,
-        this.main.getClassificationMethod(),
-        this.main.getTieBreakerMethod()
+        this.main.getClassificationMethod()
       ).d;
       trainingData.push(newInstanceClassified);
       this.dataset.updateTrainingData(trainingData, k, false);
