@@ -21,16 +21,12 @@
 }
 
 #knn-table {
-  margin-top: 40px;
+  margin-top: 38px;
 }
 
 #k-label {
   max-width: 35px;
   margin-right: 3px;
-}
-
-#k-input {
-  max-width: 100px;
 }
 
 .td-remove-row {
@@ -49,4 +45,22 @@
   padding: 0;
   height: 37.78px;
   vertical-align: middle;
+}
+
+.modebar-group {
+  margin-top: 5px !important;
+  margin-right: 35px !important;
+}
+
+#mouse-position {
+  position: absolute;
+  z-index: 10;
+  left: 45px;
+  margin-top: 10px;
+}
+
+.divider {
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.3);
+  margin: 10px 0 20px 0;
 }

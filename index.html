@@ -26,13 +26,14 @@
             <h1 class="title is-2 text-center">
               Inteligencia Artificial - Trabajo Práctico 2020: Algoritmo KNN
             </h1>
-            <!-- <h2 class="subtitle"></h2> -->
           </div>
         </div>
       </section>
-      <div>
+
+      <div class="divider mt-6"></div>
+      <div class="columns">
         <!-- k input -->
-        <div class="field is-horizontal">
+        <div class="column is-2 field is-horizontal">
           <div class="field-label is-medium" id="k-label">
             <label class="label">K =</label>
           </div>
@@ -43,7 +44,7 @@
           </div>
         </div>
         <!-- k slider -->
-        <div class="field" step="1" min="1" max="10">
+        <div class="column field" step="1" min="1" max="10">
           <div class="control">
             <input
               id="k-slider"
@@ -57,6 +58,8 @@
           </div>
         </div>
       </div>
+
+      <div class="divider"></div>
 
       <div class="columns">
         <div class="column is-2">
@@ -99,8 +102,10 @@
         </div>
       </div>
 
+      <div class="divider"></div>
+
       <div class="columns">
-        <div class="field is-horizontal column is-vcentered mb-0">
+        <div class="field is-horizontal column is-2 is-vcentered mb-0">
           <div class="field-label is-medium pt-0">
             <label class="label text-justify">Método de clasificación:</label>
           </div>
@@ -113,22 +118,13 @@
             </div>
           </div>
         </div>
-        <div class="field is-horizontal column is-vcentered">
-          <div class="field-label is-medium pt-0">
-            <label class="label">Método de desempate:</label>
-          </div>
-          <div class="field-body columns is-vcentered ml-0">
-            <div class="select is-primary is-medium">
-              <select id="select-tie-breaker-method">
-                <option value="none">Ninguno</option>
-              </select>
-            </div>
-          </div>
-        </div>
       </div>
+
+      <div class="divider"></div>
 
       <div class="columns">
         <div class="column">
+          <label id="mouse-position"></label>
           <canvas id="canvas" width="800px" height="800px"></canvas>
           <div id="chart"></div>
         </div>
