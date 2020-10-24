@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>TPI IA 2020: KNN</title>
+    <title>IA-TP2020: Algoritmo KNN</title>
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/bulma.min.css" />
     <link rel="stylesheet" href="css/bulma-slider.min.css" />
@@ -23,7 +23,9 @@
       <section class="hero">
         <div class="hero-body">
           <div class="container">
-            <h1 class="title">Algoritmo KNN</h1>
+            <h1 class="title is-2 text-center">
+              Inteligencia Artificial - Trabajo Práctico 2020: Algoritmo KNN
+            </h1>
             <!-- <h2 class="subtitle"></h2> -->
           </div>
         </div>
@@ -100,7 +102,7 @@
       <div class="columns">
         <div class="field is-horizontal column is-vcentered mb-0">
           <div class="field-label is-medium pt-0">
-            <label class="label">Método de clasificación:</label>
+            <label class="label text-justify">Método de clasificación:</label>
           </div>
           <div class="field-body columns is-vcentered ml-0">
             <div class="select is-primary is-medium">
@@ -125,25 +127,29 @@
         </div>
       </div>
 
-      <div class="inline">
-        <canvas id="canvas" width="800px" height="800px"></canvas>
-        <div id="chart"></div>
-        <!-- Display the k nearest neighbours -->
-        <table class="table is-bordered is-striped is-narrow is-hoverable has-text-centered" id="knn-table">
-          <thead class="has-background-primary has-text-white">
-            <tr>
-              <th colspan="5">K vecinos próximos</th>
-            </tr>
-            <tr>
-              <th width="1%">N°</th>
-              <th>X</th>
-              <th>Y</th>
-              <th>Etiqueta</th>
-              <th>Distancia</th>
-            </tr>
-          </thead>
-          <tbody id="knn-table-body"></tbody>
-        </table>
+      <div class="columns">
+        <div class="column">
+          <canvas id="canvas" width="800px" height="800px"></canvas>
+          <div id="chart"></div>
+        </div>
+        <div class="column">
+          <!-- Display the k nearest neighbours -->
+          <table class="table is-bordered is-striped is-narrow is-hoverable has-text-centered" id="knn-table">
+            <thead class="has-background-primary has-text-white">
+              <tr>
+                <th colspan="5">K vecinos próximos</th>
+              </tr>
+              <tr>
+                <th width="1%">N°</th>
+                <th>X</th>
+                <th>Y</th>
+                <th>Etiqueta</th>
+                <th>Distancia</th>
+              </tr>
+            </thead>
+            <tbody id="knn-table-body"></tbody>
+          </table>
+        </div>
       </div>
       <div class="mb-2">
         <button
@@ -173,9 +179,9 @@
         <button class="button is-link" id="add-dataset-button">Cargar dataset</button>
         <input id="file-input" type="file" accept=".csv, .txt" style="display: none" />
       </div>
-      <div class="columns inline">
+      <div class="columns">
         <!-- Display the dataset currently on the plot -->
-        <div class="column is-three-quarters">
+        <div class="column is-8">
           <table class="table is-bordered is-striped is-narrow is-hoverable has-text-centered mb-5">
             <thead class="has-background-primary has-text-white">
               <tr>
@@ -191,9 +197,10 @@
             <tbody id="dataset-table-body"></tbody>
           </table>
         </div>
+        <div class="column is-1"></div>
 
         <!-- Display the precision of the clasiffications for every k -->
-        <div class="column">
+        <div class="column is-3">
           <table class="table is-bordered is-striped is-hoverable has-text-centered mb-5">
             <thead class="has-background-primary has-text-white">
               <tr>
