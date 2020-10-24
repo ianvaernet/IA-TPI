@@ -19,6 +19,10 @@ class Events {
     document
       .getElementById('select-tie-breaker-method')
       .addEventListener('change', () => this.main.updateClassificationMethod());
+    document
+      .getElementById('show-grid')
+      .addEventListener('change', () => this.canvas.updateCanvas(...this.canvas.lastData));
+    document.getElementById('show-axis').addEventListener('change', () => this.plot.toggleAxisGrid());
   }
 
   onMouseDown(evt) {

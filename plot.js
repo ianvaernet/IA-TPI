@@ -143,4 +143,10 @@ class Plot {
       this.knnTable.updateTable([]);
     }
   }
+
+  toggleAxisGrid() {
+    this.layout.xaxis.showgrid = !this.layout.xaxis.showgrid;
+    this.layout.yaxis.showgrid = !this.layout.yaxis.showgrid;
+    Plotly.react(this.chart, this.plotedTrainingData, this.layout, plotlyOptions);
+  }
 }

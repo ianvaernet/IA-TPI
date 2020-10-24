@@ -8,6 +8,14 @@
   display: inline-flex;
 }
 
+.font-18 {
+  font-size: 22;
+}
+
+.zoom15 {
+  zoom: 1.5;
+}
+
 #knn-table {
   margin-top: 100px;
 }
