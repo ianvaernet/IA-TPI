@@ -11,9 +11,8 @@ class Canvas {
     this.deltaY = 100;
   }
 
-  toggleCanvas(value) {
+  setVisible(value) {
     this.canvas.style.display = value ? 'block' : 'none';
-    updateCanvas();
   }
 
   async updateCanvas(trainingData, k) {
@@ -25,6 +24,10 @@ class Canvas {
     }
     this.dirty = null;
     this.updatingCanvas = true;
+    // prevent initial freeze
+    await new Promise((res) => setTimeout(res, 0));
+    // hide canvas while drawing
+    this.setVisible(false);
     this.lastData = [trainingData, k];
     const ctx = canvas.getContext('2d');
     const xaxis = this.plot.chart._fullLayout.xaxis;
@@ -38,7 +41,8 @@ class Canvas {
     const dHeight = height / this.deltaY;
     const hdWidth = dWidth / 2;
     const hdHeight = dHeight / 2;
-    let lastFrame = 0;
+    const fps = 1000 / 30;
+    let lastFrame = Date.now();
     let drawY = true;
     for (let i = 0; i <= this.deltaX; i++) {
       const xi = i * dWidth;
@@ -50,7 +54,7 @@ class Canvas {
         ctx.fillStyle = this.labels.getColor(d.label, '40');
         ctx.fillRect(left + xi - hdWidth, top + yi - hdHeight, dWidth, dHeight);
         const now = Date.now();
-        if (now - lastFrame > 1000) {
+        if (now - lastFrame > fps) {
           lastFrame = now;
           await new Promise((res) => setTimeout(res, 0));
         }
@@ -58,12 +62,17 @@ class Canvas {
           this.drawLine(ctx, left, top + yi, left + width, top + yi);
         }
       }
-
       drawY = false;
       if (this.showGrid.checked) this.drawLine(ctx, left + xi, top, left + xi, top + height);
     }
 
     ctx.strokeRect(left, top, width, height);
+    // Clear colors outside stroke
+    ctx.clearRect(0, 0, left - 1, 800);
+    ctx.clearRect(left + width + 1, 0, 800, 800);
+    ctx.clearRect(0, 0, 800, top - 1);
+    ctx.clearRect(0, top + height + 1, 800, 800);
+    this.setVisible(true);
     this.updatingCanvas = false;
     // is there anything to draw?
     if (this.dirty) {
