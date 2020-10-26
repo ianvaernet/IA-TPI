@@ -48,10 +48,26 @@ class Dataset {
   async processDatasetFile(data) {
     const separator = data.indexOf(';') !== -1 ? ';' : ',';
     const dataset = await csv(data, { separator });
-    this.updateTrainingData(
-      dataset.map((d) => ({ x: parseFloat(d.x1), y: parseFloat(d.x2), label: d.Clase })),
-      this.main.k.value,
-      true
-    );
+    if (
+      Object.keys(dataset[0])[0] === 'x1' &&
+      Object.keys(dataset[0])[1] === 'x2' &&
+      Object.keys(dataset[0])[2] === 'Clase'
+    ) {
+      this.updateTrainingData(
+        dataset.map((d) => ({ x: parseFloat(d.x1), y: parseFloat(d.x2), label: d.Clase })),
+        this.main.k.value,
+        true
+      );
+    } else {
+      this.updateTrainingData(
+        dataset.map((d) => ({
+          x: parseFloat(Object.values(d)[0]),
+          y: parseFloat(Object.values(d)[1]),
+          label: Object.values(d)[2],
+        })),
+        this.main.k.value,
+        true
+      );
+    }
   }
 }
