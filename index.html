@@ -148,30 +148,10 @@
         </div>
       </div>
       <div class="mb-2">
-        <button
-          class="button mr-2"
-          onclick="main.dataset.loadDatasetFromURL('datasets/dataset01.csv', main.k.value)"
-        >
-          Dataset 1
-        </button>
-        <button
-          class="button mr-2"
-          onclick="main.dataset.loadDatasetFromURL('datasets/dataset02.csv', main.k.value)"
-        >
-          Dataset 2
-        </button>
-        <button
-          class="button mr-2"
-          onclick="main.dataset.loadDatasetFromURL('datasets/dataset03.csv', main.k.value)"
-        >
-          Dataset 3
-        </button>
-        <button
-          class="button mr-2"
-          onclick="main.dataset.loadDatasetFromURL('datasets/dataset04.csv', main.k.value)"
-        >
-          Dataset 4
-        </button>
+        <button class="button mr-2" onclick="main.dataset.loadDefaultDataset(dataset1)">Dataset 1</button>
+        <button class="button mr-2" onclick="main.dataset.loadDefaultDataset(dataset2)">Dataset 2</button>
+        <button class="button mr-2" onclick="main.dataset.loadDefaultDataset(dataset3)">Dataset 3</button>
+        <button class="button mr-2" onclick="main.dataset.loadDefaultDataset(dataset4)">Dataset 4</button>
         <button class="button is-link" id="add-dataset-button">Cargar dataset</button>
         <input id="file-input" type="file" accept=".csv, .txt" style="display: none" />
       </div>
@@ -212,4 +192,9 @@
     </div>
   </body>
   <script src="main.js"></script>
+
+  <script src="datasets/dataset1.js"></script>
+  <script src="datasets/dataset2.js"></script>
+  <script src="datasets/dataset3.js"></script>
+  <script src="datasets/dataset4.js"></script>
 </html>

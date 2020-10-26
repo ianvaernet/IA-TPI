@@ -39,10 +39,12 @@ class Dataset {
     };
   }
 
-  async loadDatasetFromURL(url) {
-    fetch(url)
-      .then((response) => response.text())
-      .then((data) => this.processDatasetFile(data));
+  async loadDefaultDataset(dataset) {
+    this.updateTrainingData(
+      dataset.map((d) => ({ x: parseFloat(d.x1), y: parseFloat(d.x2), label: d.Clase })),
+      this.main.k.value,
+      true
+    );
   }
 
   async processDatasetFile(data) {
