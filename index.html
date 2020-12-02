@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/bulma.min.css" />
     <link rel="stylesheet" href="css/bulma-slider.min.css" />
+    <link rel="icon" href="favicon.ico" />
     <script src="js/bulma-slider.min.js"></script>
     <script src="js/plotly.min.js"></script>
     <script src="js/plotly-locale-es.js"></script>
@@ -69,7 +70,7 @@
           </label>
           <label class="checkbox font-18">
             <input type="checkbox" class="zoom15" id="show-axis" />
-            Mostrar ejes guía
+            Mostrar ejes cartesiano
           </label>
         </div>
         <div class="field column mb-0" step="1" min="10" max="100">
@@ -112,7 +113,7 @@
           <div class="field-body columns is-vcentered ml-0">
             <div class="select is-primary is-medium">
               <select id="select-classification-method">
-                <option value="knn">KNN Puro</option>
+                <option value="knn">KNN Básico</option>
                 <option value="distanceWeighted">Distancias ponderadas</option>
               </select>
             </div>

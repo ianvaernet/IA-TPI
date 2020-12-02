@@ -23,7 +23,7 @@ class Events {
   }
 
   onMouseDown(evt) {
-    if (this.plot.mode === 'knn') {
+    if (this.plot.mode === 'add') {
       const newInstance = this.getMouseCoords(evt);
       const trainingData = this.dataset.getTrainingData();
       const k = this.k.value;
@@ -34,12 +34,12 @@ class Events {
         this.main.getClassificationMethod()
       ).d;
       trainingData.push(newInstanceClassified);
-      this.dataset.updateTrainingData(trainingData, k, false);
+      this.dataset.updateTrainingData(trainingData, k, true);
     }
   }
 
   onMouseMove(evt) {
-    if (this.plot.mode === 'knn') {
+    if (this.plot.mode !== 'none') {
       // check for too many updates, may be too heavy to execute on all move events
       const now = Date.now();
       if (this.nextUpdate > now) {
