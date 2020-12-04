@@ -96,7 +96,7 @@ class Main {
 
     let zeroDistance = false;
     for (let i = 0; i < k; i++) {
-      if (sortedTrainingData[i].distance.toFixed(4) === 0 && method === 'distanceWeighted') {
+      if (sortedTrainingData[i] == 0 && method === 'distanceWeighted') {
         zeroDistance = true;
         var zeroDistanceLabel = sortedTrainingData[i].label;
         break;
