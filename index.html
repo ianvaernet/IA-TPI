@@ -31,97 +31,93 @@
         </div>
       </section>
 
-      <div class="divider mt-6"></div>
-      <div class="columns">
-        <!-- k input -->
-        <div class="column is-2 field is-horizontal">
-          <div class="field-label is-medium" id="k-label">
-            <label class="label">K =</label>
-          </div>
-          <div class="field-body">
-            <div class="field is-narrow">
-              <input id="k-input" class="input is-primary is-medium" type="number" value="3" min="1" />
+      <div class="columns mt-6 is-vcentered is-multiline">
+        <!-- K input -->
+        <div class="column">
+          <div class="box field is-horizontal" style="width: fit-content">
+            <div class="field-label is-medium" id="k-label">
+              <label class="label">K =</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <input id="k-input" class="input is-primary is-medium" type="number" value="3" min="1" />
+              </div>
             </div>
           </div>
         </div>
-        <!-- k slider -->
-        <div class="column field" step="1" min="1" max="10">
-          <div class="control">
-            <input
-              id="k-slider"
-              type="range"
-              value="3"
-              step="1"
-              min="1"
-              max="10"
-              class="slider is-fullwidth"
-            />
+        <!-- Classification method -->
+        <div class="column">
+          <div class="box field is-horizontal" style="width: fit-content">
+            <div class="field-label is-medium pt-0">
+              <label class="label text-justify">Método de clasificación:</label>
+            </div>
+            <div class="field-body columns is-vcentered">
+              <div class="select is-primary is-medium">
+                <select id="select-classification-method">
+                  <option value="knn">KNN Básico</option>
+                  <option value="distanceWeighted">Distancias ponderadas</option>
+                </select>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="columns">
-        <div class="column is-2">
-          <label class="checkbox font-18">
-            <input type="checkbox" class="zoom15" id="show-grid" checked />
-            Mostrar grid
-          </label>
-          <label class="checkbox font-18">
-            <input type="checkbox" class="zoom15" id="show-axis" />
-            Mostrar ejes cartesiano
-          </label>
-        </div>
-        <div class="field column mb-0" step="1" min="10" max="100">
-          <label id="grid-x-label" class="label">Divisiones del grid X = 100</label>
-          <div class="control">
-            <input
-              id="grid-x-slider"
-              type="range"
-              value="100"
-              step="1"
-              min="10"
-              max="100"
-              class="slider is-fullwidth"
-            />
+        <!-- Dataset buttons -->
+        <div class="column">
+          <div class="box field is-horizontal pt-5 pb-5" style="width: fit-content">
+            <button class="button is-link mr-2" id="add-dataset-button">Cargar dataset</button>
+            <button class="button mr-2" onclick="main.dataset.loadDefaultDataset(dataset1)">Dataset 1</button>
+            <button class="button mr-2" onclick="main.dataset.loadDefaultDataset(dataset2)">Dataset 2</button>
+            <button class="button mr-2" onclick="main.dataset.loadDefaultDataset(dataset3)">Dataset 3</button>
+            <button class="button" onclick="main.dataset.loadDefaultDataset(dataset4)">Dataset 4</button>
+            <input id="file-input" type="file" accept=".csv, .txt" style="display: none" />
           </div>
         </div>
-        <div class="field column" step="1" min="10" max="100">
-          <label id="grid-y-label" class="label">Divisiones del grid Y = 100</label>
-          <div class="control">
-            <input
-              id="grid-y-slider"
-              type="range"
-              value="100"
-              step="1"
-              min="10"
-              max="100"
-              class="slider is-fullwidth"
-            />
+
+        <div class="column">
+          <div class="box field mb-2" style="width: 300px">
+            <label class="checkbox font-18">
+              <input type="checkbox" class="zoom15" id="show-grid" checked />
+              Mostrar grid
+            </label>
+            <label class="checkbox font-18">
+              <input type="checkbox" class="zoom15" id="show-axis" />
+              Mostrar ejes cartesianos
+            </label>
           </div>
         </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="columns">
-        <div class="field is-horizontal column is-2 is-vcentered mb-0">
-          <div class="field-label is-medium pt-0">
-            <label class="label text-justify">Método de clasificación:</label>
+        <div class="column">
+          <div class="box field pb-1" style="width: 495px">
+            <label id="grid-x-label" class="label">Divisiones del grid X = 100</label>
+            <div class="control">
+              <input
+                id="grid-x-slider"
+                type="range"
+                value="100"
+                step="1"
+                min="10"
+                max="100"
+                class="slider is-fullwidth"
+              />
+            </div>
           </div>
-          <div class="field-body columns is-vcentered ml-0">
-            <div class="select is-primary is-medium">
-              <select id="select-classification-method">
-                <option value="knn">KNN Básico</option>
-                <option value="distanceWeighted">Distancias ponderadas</option>
-              </select>
+        </div>
+        <div class="column">
+          <div class="box field pb-1" style="width: 495px">
+            <label id="grid-y-label" class="label">Divisiones del grid Y = 100</label>
+            <div class="control">
+              <input
+                id="grid-y-slider"
+                type="range"
+                value="100"
+                step="1"
+                min="10"
+                max="100"
+                class="slider is-fullwidth"
+              />
             </div>
           </div>
         </div>
       </div>
-
-      <div class="divider"></div>
 
       <div class="columns">
         <div class="column">
@@ -147,14 +143,6 @@
             <tbody id="knn-table-body"></tbody>
           </table>
         </div>
-      </div>
-      <div class="mb-2">
-        <button class="button mr-2" onclick="main.dataset.loadDefaultDataset(dataset1)">Dataset 1</button>
-        <button class="button mr-2" onclick="main.dataset.loadDefaultDataset(dataset2)">Dataset 2</button>
-        <button class="button mr-2" onclick="main.dataset.loadDefaultDataset(dataset3)">Dataset 3</button>
-        <button class="button mr-2" onclick="main.dataset.loadDefaultDataset(dataset4)">Dataset 4</button>
-        <button class="button is-link" id="add-dataset-button">Cargar dataset</button>
-        <input id="file-input" type="file" accept=".csv, .txt" style="display: none" />
       </div>
       <div class="columns">
         <!-- Display the dataset currently on the plot -->

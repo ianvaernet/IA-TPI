@@ -3,8 +3,7 @@ const inputId = 'k-input';
 
 class K {
   constructor(main, plot, canvas, dataset) {
-    this.slider = new Input("K", sliderId, null, v => this.update(v));
-    this.input = new Input("K", inputId, null, v => this.update(v));
+    this.input = new Input('K', inputId, null, (v) => this.update(v));
     this.main = main;
     this.plot = plot;
     this.canvas = canvas;
