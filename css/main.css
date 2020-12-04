@@ -43,7 +43,7 @@
 
 #precision-table-body > tr > td {
   padding: 0;
-  height: 37.78px;
+  height: 39px;
   vertical-align: middle;
 }
 
@@ -63,4 +63,24 @@
   height: 1px;
   background-color: rgba(0, 0, 0, 0.3);
   margin: 10px 0 20px 0;
+}
+
+#box-k-input {
+  min-width: 240px;
+}
+
+#box-classification-method {
+  min-width: 350px;
+}
+
+#box-dataset-buttons {
+  min-width: 611px;
+}
+
+#grid-and-axis-checkboxes {
+  min-width: 300px;
+}
+
+#grid-divisions {
+  min-width: 490px;
 }
