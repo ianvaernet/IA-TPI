@@ -93,24 +93,24 @@ class Main {
     const labels = []; // [{label: 'C1', count: n, distance: f}]
     const newInstanceCopy = { ...newInstance };
     if (k > sortedTrainingData.length) k = sortedTrainingData.length;
-
     let zeroDistance = false;
     for (let i = 0; i < k; i++) {
-      if (sortedTrainingData[i].distance.toFixed(4) === 0 && method === 'distanceWeighted') {
+      if (sortedTrainingData[i].distance === 0 && method === 'distanceWeighted') {
         zeroDistance = true;
         var zeroDistanceLabel = sortedTrainingData[i].label;
         break;
       }
-
-      let index = labels.findIndex((element) => element.label === sortedTrainingData[i].label);
-      if (index === -1)
+      const index = labels.findIndex((element) => element.label === sortedTrainingData[i].label);
+      const deltaCount = method === 'distanceWeighted' ? (1 / (sortedTrainingData[i].distance ** 2)) : 1;
+      if (index === -1) {
         labels.push({
           label: sortedTrainingData[i].label,
-          count: method === 'distanceWeighted' ? 1 / (sortedTrainingData[i].distance ** 2).toFixed(4) : 1,
+          count: deltaCount,
         });
-      else
-        labels[index].count +=
-          method === 'distanceWeighted' ? 1 / (sortedTrainingData[i].distance ** 2).toFixed(4) : 1;
+      }
+      else {
+        labels[index].count += deltaCount;
+      }
     }
 
     if (zeroDistance) {
