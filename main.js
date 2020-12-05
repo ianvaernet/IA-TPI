@@ -73,6 +73,15 @@ class Main {
   }
 
   /**
+   * @param {DataUnlabeled} from
+   * @param {DataUnlabeled} to
+   * @returns {number}
+   */
+  calculateDistance(from, to) {
+    return Math.sqrt((from.x - to.x) ** 2 + (from.y - to.y) ** 2);
+  }
+
+  /**
    * @param {DataLabeledDistance[]} trainingDataWithDistances
    * @returns {DataLabeledDistance[]}
    */
@@ -162,16 +171,23 @@ class Main {
 
   calculatePrecision(trainingData) {
     const distanceMatrix = []; //contains for each node the distance to others nodes
+    trainingData.forEach((node1, index1) => {
+      const row = [];
+      trainingData.forEach((node2, index2) => {
+        if (index1 === index2) return;
+        let distance;
+        if (index2 < index1) {
+          distance = distanceMatrix[index2][index1 - 1].distance;
+        } else {
+          distance = this.calculateDistance(node1, node2);
+        }
+        row.push({ ...node2, distance });
+      });
+      distanceMatrix.push(row);
+    });
+    distanceMatrix.forEach((row, index) => distanceMatrix[index] = this.sortByDistance(row));
     const correctClassifications = []; //contains for each k the number of correct classifications
     let optimumK = 0;
-
-    trainingData.forEach((node, index) => {
-      let trainingDataWithoutCurrentNode = [...trainingData];
-      trainingDataWithoutCurrentNode.splice(index, 1);
-      let trainingDataWithDistances = this.calculateDistances(trainingDataWithoutCurrentNode, node);
-      distanceMatrix.push(this.sortByDistance(trainingDataWithDistances));
-    });
-
     for (let k = 0; k < trainingData.length - 1; k++) {
       correctClassifications.push(0);
       trainingData.forEach((node, index) => {
