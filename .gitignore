@@ -1,1 +1,6 @@
 .vscode
+dist
+.eslintrc.js
+node_modules
+.nyc_output
+out
