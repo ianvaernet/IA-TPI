@@ -1,0 +1,44 @@
+@startuml KNN
+
+actor Usuario
+control Main
+entity Canvas
+
+== iniciar ==
+
+autonumber
+Usuario->Main:inciar(\n\tdataset,\n\t K,\n\t método_clasificación,\n\t grid_x,\n\t grid_y\n)
+Main->Canvas:clasificar_grid(dataset):grid
+Main->Main:calcular_precisión(dataset):k_óptimo
+Main-->Usuario:{ grid, k_óptimo }
+
+== clasificar_grid ==
+
+autonumber "2_#"
+loop h en grid_x
+  loop v en grid_y
+    Canvas->Main:knn(dataset, X: { x1: h, x2: v})
+    loop xi en dataset
+      Main->Main:distancia(xi, X)
+    end
+    Main->Main:ordenar_por_distancia(dataset):dataset_ordenado
+    Main->Main:clasificar(dataset_ordenado, K, método_clasificación):clase
+    Main-->Canvas:clase
+  end
+end
+
+== calcular_precisión ==
+
+autonumber "3_#"
+Main->Main:calcular_matriz_distancias(dataset):matriz_distancias
+Main->Main:ordenar_matriz_distancias(dataset):matriz_distancias_ordenada
+loop K en tamaño(dataset)
+  loop xi en dataset
+    Main->Main:clasificar(matriz_distancias_ordenada[K], K, método_clasificación):clase
+    alt clase == xi.clase 
+      Main->Main:acumular_clasificación_correcta(K)
+    end
+  end
+end
+
+@enduml
