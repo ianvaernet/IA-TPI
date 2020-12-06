@@ -32,8 +32,16 @@ class Table {
     tr.appendChild(td);
   }
 
-  updateTable(rows) {
+  updateTable(rows, loading) {
     this.removeAllChildNodes(this.tableBody);
+    if (loading) {
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+      td.setAttribute("colspan", 3);
+      td.innerHTML = `<span class="is-flex is-flex-direction-row is-justify-content-center is-align-items-center">Calculando<button class="button is-loading is-white"></button></span>`;
+      tr.appendChild(td);
+      this.tableBody.appendChild(tr);
+    }
     rows.forEach((row, rowIndex) => {
       const tr = document.createElement('tr');
       if (this.labels && row.label) {

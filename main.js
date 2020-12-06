@@ -96,9 +96,9 @@ class Main {
    * @param {Number} k
    * @returns {DataLabeled}
    */
-  classifyNewInstance(sortedTrainingData, newInstance, k, distanceWeighted) {
+  classifyNewInstance(sortedTrainingData, newInstance, k, distanceWeighted, copy = true) {
     const labels = []; // [{label: 'C1', count: n, distance: f}]
-    const newInstanceCopy = { ...newInstance };
+    let label = 'NaN';
     if (k > sortedTrainingData.length) k = sortedTrainingData.length;
     let zeroDistance = false;
     for (let i = 0; i < k; i++) {
@@ -107,40 +107,41 @@ class Main {
         var zeroDistanceLabel = sortedTrainingData[i].label;
         break;
       }
-      const index = labels.findIndex((element) => element.label === sortedTrainingData[i].label);
       const deltaCount = distanceWeighted ? (1 / (sortedTrainingData[i].distance ** 2)) : 1;
-      if (index === -1) {
+      let exists = false;
+      for (let j = 0; j < labels.length; j++) {
+        if (labels[j].label === sortedTrainingData[i].label) {
+          labels[j].count += deltaCount;
+          exists = true;
+          break;
+        }
+      }
+      if (!exists) {
         labels.push({
           label: sortedTrainingData[i].label,
           count: deltaCount,
         });
       }
-      else {
-        labels[index].count += deltaCount;
-      }
     }
 
     if (zeroDistance) {
-      newInstanceCopy.label = zeroDistanceLabel;
-      zeroDistance = false;
+      label = zeroDistanceLabel;
     } else {
       let maxFrecuency = 0,
         maxFrecuencyIndex = 0,
         maxFrecuencyDuplicated = false;
-      labels.forEach((label, index) => {
-        if (label.count > maxFrecuency) {
-          maxFrecuency = label.count;
-          maxFrecuencyIndex = index;
+      for (let i = 0; i < labels.length; i++) {
+        if (labels[i].count > maxFrecuency) {
+          maxFrecuency = labels[i].count;
+          maxFrecuencyIndex = i;
           maxFrecuencyDuplicated = false;
-        } else if (label.count === maxFrecuency) maxFrecuencyDuplicated = true;
-      });
-      if (!maxFrecuencyDuplicated) newInstanceCopy.label = labels[maxFrecuencyIndex].label;
-      else {
-        newInstanceCopy.label = 'NaN';
+        } else if (labels[i].count === maxFrecuency) maxFrecuencyDuplicated = true;
+      }
+      if (!maxFrecuencyDuplicated) {
+        label = labels[maxFrecuencyIndex].label;
       }
     }
-
-    return newInstanceCopy;
+    return copy ? { ...newInstance, label } : label;
   }
 
   /**
@@ -149,16 +150,17 @@ class Main {
    * @param {Number} k
    * @returns {KNNResult}
    */
-  knn(trainingData, newInstance, k, classificationMethod) {
+  knn(trainingData, newInstance, k, classificationMethod, copy = true) {
     let trainingDataWithDistances = this.calculateDistances(trainingData, newInstance);
     let sortedTrainingDataWithDistances = this.sortByDistance(trainingDataWithDistances);
     let newInstanceClassified = this.classifyNewInstance(
       sortedTrainingDataWithDistances,
       newInstance,
       k,
-      classificationMethod === 'distanceWeighted'
+      classificationMethod === 'distanceWeighted',
+      copy
     );
-    return { P: sortedTrainingDataWithDistances, d: newInstanceClassified };
+    return copy ? { P: sortedTrainingDataWithDistances, d: newInstanceClassified } : newInstanceClassified;
   }
 
   updateKNN(trainingData, newInstance, k) {
@@ -167,40 +169,67 @@ class Main {
     this.knnTable.updateTable(P.splice(0, k));
   }
 
-  calculatePrecision(trainingData, method) {
+  async calculatePrecision(trainingData, method) {
+    // avoid multiple drawings, since I have no idea how to stop the previously running function
+    if (this.updatingPrecision) {
+      // when drawing finishes, the last dirty values will be used to draw the next time
+      this.dirty = [trainingData, method];
+      return;
+    }
+    this.dirty = null;
+    this.updatingPrecision = true;
+    this.precisionTable.updateTable([], true);
+    // prevent initial freeze
+    await new Promise((res) => setTimeout(res, 0));
+    const fps = 1000 / 30;
+    let lastFrame = Date.now();
     const distanceMatrix = []; //contains for each node the distance to others nodes
-    trainingData.forEach((node1, index1) => {
+    for (let index1 = 0; index1 < trainingData.length; index1++) {
       distanceMatrix.push([]);
-      trainingData.forEach((node2, index2) => {
-        if (index1 === index2) return;
+      for (let index2 = 0; index2 < trainingData.length; index2++) {
+        if (index1 === index2) continue;
         let distance;
         if (index2 < index1) {
           distance = distanceMatrix[index2][index1 - 1].distance;
         } else {
-          distance = this.calculateDistance(node1, node2);
+          distance = this.calculateDistance(trainingData[index1], trainingData[index2]);
         }
-        distanceMatrix[index1].push({ ...node2, distance });
-      });
-    });
-    distanceMatrix.forEach((row, index) => distanceMatrix[index] = this.sortByDistance(row));
+        distanceMatrix[index1].push({ ...trainingData[index2], distance });
+        const now = Date.now();
+        if (now - lastFrame > fps) {
+          lastFrame = now;
+          await new Promise((res) => setTimeout(res, 0));
+        }
+      }
+    }
+    const sort = (a, b) => a.distance - b.distance;
+    for (let i = 0; i < distanceMatrix.length; i++) {
+      distanceMatrix[i].sort(sort);
+    }
     const correctClassifications = []; //contains for each k the number of correct classifications
     let optimumK = 0;
     const distanceWeighted = method === 'distanceWeighted';
     for (let k = 0; k < trainingData.length - 1; k++) {
       correctClassifications.push(0);
-      trainingData.forEach((node, index) => {
-        let nodeClassified = this.classifyNewInstance(
-          distanceMatrix[index],
-          node,
+      for (let i = 0; i < trainingData.length; i++) {
+        let label = this.classifyNewInstance(
+          distanceMatrix[i],
+          trainingData[i],
           k + 1,
-          distanceWeighted
+          distanceWeighted,
+          false
         );
-        if (nodeClassified.label === trainingData[index].label && nodeClassified.label !== 'NaN')
+        if (label === trainingData[i].label && label !== 'NaN') {
           correctClassifications[k]++;
-      });
+        }
+        const now = Date.now();
+        if (now - lastFrame > fps) {
+          lastFrame = now;
+          await new Promise((res) => setTimeout(res, 0));
+        }
+      }
       if (correctClassifications[k] > correctClassifications[optimumK]) optimumK = k;
     }
-
     this.precisionTable.updateTable(
       correctClassifications.map((value) => {
         return {
@@ -210,6 +239,11 @@ class Main {
         };
       })
     );
+    this.updatingPrecision = false;
+    // is there anything to draw?
+    if (this.dirty) {
+      this.calculatePrecision(...this.dirty);
+    }
     return optimumK;
   }
 

@@ -44,22 +44,35 @@ class Canvas {
     const fps = 1000 / 30;
     let lastFrame = Date.now();
     let drawY = true;
+    const distanceWeighted = this.main.getClassificationMethod() === 'distanceWeighted';
+    if (this.dataset !== trainingData || !this.matrix) this.matrix = {};
+    this.dataset = trainingData;
+    const sort = (a, b) => a.distance - b.distance;
     for (let i = 0; i <= this.deltaX; i++) {
       const xi = i * dWidth;
       for (let j = 0; j <= this.deltaY; j++) {
         const yi = j * dHeight;
         const x = xaxis.p2c(xi);
         const y = yaxis.p2c(yi);
-        const { d } = this.main.knn(trainingData, { x, y }, k, this.main.getClassificationMethod());
-        ctx.fillStyle = this.labels.getColor(d.label, '40');
+        if (!this.matrix[i]) this.matrix[i] = {};
+        if (!this.matrix[i][j]) {
+          let distances = [];
+          for (let n = 0; n < trainingData.length; n++) {
+            distances.push({ ...trainingData[n], distance: this.main.calculateDistance(trainingData[n], { x, y }) });
+          }
+          this.matrix[i][j] = distances;
+          this.matrix[i][j].sort(sort);
+        }
+        const label = this.main.classifyNewInstance(this.matrix[i][j], { x, y }, k, distanceWeighted, false);
+        ctx.fillStyle = this.labels.getColor(label, '40');
         ctx.fillRect(left + xi - hdWidth, top + yi - hdHeight, dWidth, dHeight);
+        if (drawY && this.showGrid.checked) {
+          this.drawLine(ctx, left, top + yi, left + width, top + yi);
+        }
         const now = Date.now();
         if (now - lastFrame > fps) {
           lastFrame = now;
           await new Promise((res) => setTimeout(res, 0));
-        }
-        if (drawY && this.showGrid.checked) {
-          this.drawLine(ctx, left, top + yi, left + width, top + yi);
         }
       }
       drawY = false;
