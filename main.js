@@ -63,11 +63,9 @@ class Main {
    */
   calculateDistances(trainingData, newInstance) {
     for (let i = 0; i < trainingData.length; i++) {
-      let element = trainingData[i];
-      let distance = Math.sqrt(
+      trainingData[i].distance = Math.sqrt(
         (newInstance.x - trainingData[i].x) ** 2 + (newInstance.y - trainingData[i].y) ** 2
       );
-      element.distance = distance;
     }
     return trainingData;
   }
@@ -87,9 +85,9 @@ class Main {
    */
   sortByDistance(trainingDataWithDistances) {
     // making a copy of the training data to avoid adding new points to the original data
-    const sortedData = trainingDataWithDistances.filter((instance) => instance.label !== 'NaN');
-    sortedData.sort((a, b) => a.distance - b.distance);
-    return sortedData;
+    return trainingDataWithDistances
+      .filter((instance) => instance.label !== 'NaN')
+      .sort((a, b) => a.distance - b.distance);
   }
 
   /**
@@ -98,19 +96,19 @@ class Main {
    * @param {Number} k
    * @returns {DataLabeled}
    */
-  classifyNewInstance(sortedTrainingData, newInstance, k, method) {
+  classifyNewInstance(sortedTrainingData, newInstance, k, distanceWeighted) {
     const labels = []; // [{label: 'C1', count: n, distance: f}]
     const newInstanceCopy = { ...newInstance };
     if (k > sortedTrainingData.length) k = sortedTrainingData.length;
     let zeroDistance = false;
     for (let i = 0; i < k; i++) {
-      if (sortedTrainingData[i].distance === 0 && method === 'distanceWeighted') {
+      if (sortedTrainingData[i].distance === 0 && distanceWeighted) {
         zeroDistance = true;
         var zeroDistanceLabel = sortedTrainingData[i].label;
         break;
       }
       const index = labels.findIndex((element) => element.label === sortedTrainingData[i].label);
-      const deltaCount = method === 'distanceWeighted' ? (1 / (sortedTrainingData[i].distance ** 2)) : 1;
+      const deltaCount = distanceWeighted ? (1 / (sortedTrainingData[i].distance ** 2)) : 1;
       if (index === -1) {
         labels.push({
           label: sortedTrainingData[i].label,
@@ -158,7 +156,7 @@ class Main {
       sortedTrainingDataWithDistances,
       newInstance,
       k,
-      classificationMethod
+      classificationMethod === 'distanceWeighted'
     );
     return { P: sortedTrainingDataWithDistances, d: newInstanceClassified };
   }
@@ -169,10 +167,10 @@ class Main {
     this.knnTable.updateTable(P.splice(0, k));
   }
 
-  calculatePrecision(trainingData) {
+  calculatePrecision(trainingData, method) {
     const distanceMatrix = []; //contains for each node the distance to others nodes
     trainingData.forEach((node1, index1) => {
-      const row = [];
+      distanceMatrix.push([]);
       trainingData.forEach((node2, index2) => {
         if (index1 === index2) return;
         let distance;
@@ -181,13 +179,13 @@ class Main {
         } else {
           distance = this.calculateDistance(node1, node2);
         }
-        row.push({ ...node2, distance });
+        distanceMatrix[index1].push({ ...node2, distance });
       });
-      distanceMatrix.push(row);
     });
     distanceMatrix.forEach((row, index) => distanceMatrix[index] = this.sortByDistance(row));
     const correctClassifications = []; //contains for each k the number of correct classifications
     let optimumK = 0;
+    const distanceWeighted = method === 'distanceWeighted';
     for (let k = 0; k < trainingData.length - 1; k++) {
       correctClassifications.push(0);
       trainingData.forEach((node, index) => {
@@ -195,7 +193,7 @@ class Main {
           distanceMatrix[index],
           node,
           k + 1,
-          this.getClassificationMethod()
+          distanceWeighted
         );
         if (nodeClassified.label === trainingData[index].label && nodeClassified.label !== 'NaN')
           correctClassifications[k]++;
@@ -218,7 +216,7 @@ class Main {
   updateClassificationMethod() {
     this.updateKNN(this.dataset.trainingData, { x: 0, y: 0 }, this.k.value, this.getClassificationMethod());
     this.canvas.updateCanvas(this.dataset.trainingData, this.k.value);
-    this.calculatePrecision(this.dataset.trainingData);
+    this.calculatePrecision(this.dataset.trainingData, this.getClassificationMethod());
   }
 
   getClassificationMethod() {

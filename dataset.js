@@ -28,7 +28,7 @@ class Dataset {
       else this.main.updateKNN(trainingData, { x: 0, y: 0 }, k);
     }
     this.canvas.updateCanvas(trainingData, k);
-    this.main.calculatePrecision(trainingData);
+    this.main.calculatePrecision(trainingData, this.main.getClassificationMethod());
   }
 
   loadLocalDataset() {
