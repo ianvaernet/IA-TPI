@@ -1,0 +1,13 @@
+{
+  "name": "ia-tpi",
+  "scripts": {
+    "test": "mocha ./tests/*.test.js --reporter=list --exit --timeout=15000",
+    "cov": "nyc yarn test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.2.1",
+    "nyc": "^15.1.0"
+  }
+}
