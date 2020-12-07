@@ -1,5 +1,9 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>IA-TP2020: Algoritmo KNN</title>
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/bulma.min.css" />
@@ -34,11 +38,29 @@
       <!-- Dataset buttons -->
       <div class="column">
         <div class="box field is-horizontal pt-5 pb-5" id="box-dataset-buttons">
-          <button class="button is-link mr-2" id="add-dataset-button">Cargar dataset</button>
-          <button class="button mr-2" onclick="main.dataset.loadDefaultDataset(dataset1)">Dataset 1</button>
-          <button class="button mr-2" onclick="main.dataset.loadDefaultDataset(dataset2)">Dataset 2</button>
-          <button class="button mr-2" onclick="main.dataset.loadDefaultDataset(dataset3)">Dataset 3</button>
-          <button class="button" onclick="main.dataset.loadDefaultDataset(dataset4)">Dataset 4</button>
+          <button class="button is-link mr-2 is-medium" id="add-dataset-button">Cargar dataset</button>
+          <div class="field is-horizontal">
+            <div class="field-label is-medium pt-0">
+              <label class="label text-justify">Ejemplos:</label>
+            </div>
+            <div class="field-body columns is-vcentered">
+              <div class="select is-primary is-medium">
+                <select id="select-dataset">
+                  <option value="inicial">Inicial</option>
+                  <option value="fruits0">Frutas 1</option>
+                  <option value="fruits2">Frutas 2</option>
+                  <option value="fruits4">Frutas 3</option>
+                  <option value="fruits_pca">Frutas 4</option>
+                  <option value="iris_petalo">Iris Pétalo</option>
+                  <option value="iris_sepalo">Iris Sépalo</option>
+                  <option value="school_level">Niveles de colegio</option>
+                  <option value="wine">Vinos 1</option>
+                  <option value="color_hue">Vinos 2</option>
+                  <option value="color_phenols">Vinos 3</option>
+                </select>
+              </div>
+            </div>
+          </div>
           <input id="file-input" type="file" accept=".csv, .txt" style="display: none" />
         </div>
       </div>
@@ -66,7 +88,7 @@
           <div class="field-body columns is-vcentered">
             <div class="select is-primary is-medium">
               <select id="select-classification-method">
-                <option value="knn">KNN Básico</option>
+                <option value="knn">KNN</option>
                 <option value="distanceWeighted">Distancias ponderadas</option>
               </select>
             </div>
@@ -188,10 +210,16 @@
       </div>
     </div>
   </body>
+  <script src="datasets/inicial.js"></script>
+  <script src="datasets/wine.js"></script>
+  <script src="datasets/color_hue.js"></script>
+  <script src="datasets/color_phenols.js"></script>
+  <script src="datasets/fruits_pca.js"></script>
+  <script src="datasets/fruits0.js"></script>
+  <script src="datasets/fruits2.js"></script>
+  <script src="datasets/fruits4.js"></script>
+  <script src="datasets/iris_petalo.js"></script>
+  <script src="datasets/iris_sepalo.js"></script>
+  <script src="datasets/school_level.js"></script>
   <script src="main.js"></script>
-
-  <script src="datasets/dataset1.js"></script>
-  <script src="datasets/dataset2.js"></script>
-  <script src="datasets/dataset3.js"></script>
-  <script src="datasets/dataset4.js"></script>
 </html>

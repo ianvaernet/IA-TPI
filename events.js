@@ -17,6 +17,9 @@ class Events {
       .getElementById('select-classification-method')
       .addEventListener('change', () => this.main.updateClassificationMethod());
     document
+      .getElementById('select-dataset')
+      .addEventListener('change', () => this.dataset.loadDefaultDataset());
+    document
       .getElementById('show-grid')
       .addEventListener('change', () => this.canvas.updateCanvas(...this.canvas.lastData));
     document.getElementById('show-axis').addEventListener('change', () => this.plot.toggleAxisGrid());
