@@ -39,7 +39,25 @@ class Dataset {
     };
   }
 
-  async loadDefaultDataset(dataset) {
+  getDataset() {
+    const datasetName = document.getElementById('select-dataset').value;
+    return {
+      inicial: inicial,
+      wine: wine,
+      color_hue: color_hue,
+      color_phenols: color_phenols,
+      fruits_pca: fruits_pca,
+      fruits0: fruits0,
+      fruits2: fruits2,
+      fruits4: fruits4,
+      iris_petalo: iris_petalo,
+      iris_sepalo: iris_sepalo,
+      school_level: school_level,
+    }[datasetName];
+  }
+
+  async loadDefaultDataset() {
+    const dataset = this.getDataset();
     this.updateTrainingData(
       dataset.map((d) => ({ x: parseFloat(d.x1), y: parseFloat(d.x2), label: d.Clase })),
       this.main.k.value,

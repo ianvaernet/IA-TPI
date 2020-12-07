@@ -138,6 +138,18 @@ class Plot {
         plotableData[index].y.push(element.y);
       }
     });
+    // Leyenda de rechazo
+    plotableData.push({
+      x: [null],
+      y: [null],
+      marker: {
+        size: 8,
+        color: '#ffffff'
+      },
+      type: 'bar', // para que sea cuadrado y aplique la clase "legendundefined"
+      name: 'Sin clasificar',
+      hoverinfo: 'none'
+    });
     this.plotedTrainingData = plotableData;
   }
 
