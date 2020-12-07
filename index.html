@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>IA-TP2020: Algoritmo KNN</title>
-    <link rel="stylesheet" href="css/main.css" />
-    <link rel="stylesheet" href="css/bulma.min.css" />
-    <link rel="stylesheet" href="css/bulma-slider.min.css" />
-    <link rel="icon" href="favicon.ico" />
-    <script src="js/bulma-slider.min.js"></script>
-    <script src="js/plotly.min.js"></script>
-    <script src="js/plotly-locale-es.js"></script>
-    <script src="js/neat-csv.min.js"></script>
-    <script src="table.js"></script>
-    <script src="k.js"></script>
-    <script src="dataset.js"></script>
-    <script src="events.js"></script>
-    <script src="canvas.js"></script>
-    <script src="plot.js"></script>
-    <script src="labels.js"></script>
-    <script src="grid.js"></script>
-    <script src="input.js"></script>
-  </head>
-  <body>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>IA-TP2020: Algoritmo KNN</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/bulma.min.css" />
+  <link rel="stylesheet" href="css/bulma-slider.min.css" />
+  <link rel="icon" href="favicon.ico" />
+  <script src="js/bulma-slider.min.js"></script>
+  <script src="js/plotly.min.js"></script>
+  <script src="js/plotly-locale-es.js"></script>
+  <script src="js/neat-csv.min.js"></script>
+  <script src="table.js"></script>
+  <script src="k.js"></script>
+  <script src="dataset.js"></script>
+  <script src="events.js"></script>
+  <script src="canvas.js"></script>
+  <script src="plot.js"></script>
+  <script src="labels.js"></script>
+  <script src="grid.js"></script>
+  <script src="input.js"></script>
+</head>
+
+<body>
+  <div class="container">
     <section class="hero">
       <div class="hero-body">
         <div class="container">
@@ -34,16 +37,16 @@
       </div>
     </section>
 
-    <div class="columns mt-6 is-vcentered is-multiline px-2">
+    <div class="columns is-multiline is-desktop mt-6">
       <!-- Dataset buttons -->
-      <div class="column">
-        <div class="box field is-horizontal pt-5 pb-5" id="box-dataset-buttons">
+      <div class="column is-half-desktop">
+        <div class="box field is-flex is-flex-direction-row is-align-items-center pt-5 pb-5" id="box-dataset-buttons">
           <button class="button is-link mr-2 is-medium" id="add-dataset-button">Cargar dataset</button>
-          <div class="field is-horizontal">
+          <div class="field is-flex is-flex-direction-row is-align-items-center mb-0">
             <div class="field-label is-medium pt-0">
               <label class="label text-justify">Ejemplos:</label>
             </div>
-            <div class="field-body columns is-vcentered">
+            <div class="field-body is-vcentered">
               <div class="select is-primary is-medium">
                 <select id="select-dataset">
                   <option value="inicial">Inicial</option>
@@ -66,8 +69,8 @@
       </div>
 
       <!-- K input -->
-      <div class="column">
-        <div class="box field is-horizontal" id="box-k-input">
+      <div class="column is-half-desktop">
+        <div class="box field is-flex is-flex-direction-row is-align-items-center" id="box-k-input">
           <div class="field-label is-medium" id="k-label">
             <label class="label">K =</label>
           </div>
@@ -80,7 +83,7 @@
       </div>
 
       <!-- Classification method -->
-      <div class="column">
+      <div class="column is-half-desktop">
         <div class="box field is-horizontal" id="box-classification-method">
           <div class="field-label is-medium pt-0">
             <label class="label text-justify">Método de clasificación:</label>
@@ -97,63 +100,50 @@
       </div>
 
       <!-- Grid and axis checkboxes -->
-      <div class="column">
-        <div class="box field mb-2" id="grid-and-axis-checkboxes">
-          <label class="checkbox font-18">
+      <div class="column is-half-desktop">
+        <div class="box field mb-2 is-flex is-flex-direction-column is-justify-content-center"
+          id="grid-and-axis-checkboxes">
+          <label class="checkbox font-18 is-flex is-flex-direction-row is-align-items-center mb-1">
             <input type="checkbox" class="zoom15" id="show-grid" checked />
-            Mostrar grid
+            <span class="ml-1">Mostrar grid</span>
           </label>
-          <label class="checkbox font-18">
+          <label class="checkbox font-18 is-flex is-flex-direction-row is-align-items-center">
             <input type="checkbox" class="zoom15" id="show-axis" />
-            Mostrar ejes cartesianos
+            <span class="ml-1">Mostrar ejes cartesianos</span>
           </label>
         </div>
       </div>
 
       <!-- Grid divisions -->
-      <div class="column">
+      <div class="column is-half-desktop">
         <div class="box field pb-1" id="grid-divisions">
           <label id="grid-x-label" class="label">Divisiones del grid X = 100</label>
           <div class="control">
-            <input
-              id="grid-x-slider"
-              type="range"
-              value="100"
-              step="1"
-              min="10"
-              max="100"
-              class="slider is-fullwidth"
-            />
+            <input id="grid-x-slider" type="range" value="100" step="1" min="10" max="100"
+              class="slider is-fullwidth" />
           </div>
         </div>
       </div>
-      <div class="column">
-        <div class="box field pb-1" style="min-width: 490px">
+      <div class="column is-half-desktop">
+        <div class="box field pb-1">
           <label id="grid-y-label" class="label">Divisiones del grid Y = 100</label>
           <div class="control">
-            <input
-              id="grid-y-slider"
-              type="range"
-              value="100"
-              step="1"
-              min="10"
-              max="100"
-              class="slider is-fullwidth"
-            />
+            <input id="grid-y-slider" type="range" value="100" step="1" min="10" max="100"
+              class="slider is-fullwidth" />
           </div>
         </div>
       </div>
     </div>
 
-    <div class="container">
-      <div class="columns">
-        <div class="column">
-          <label id="mouse-position"></label>
-          <canvas id="canvas" width="800px" height="800px"></canvas>
-          <div id="chart"></div>
-        </div>
-        <div class="column">
-          <!-- Display the k nearest neighbours -->
+    <div class="columns">
+      <div class="column">
+        <label id="mouse-position"></label>
+        <canvas id="canvas" width="800px" height="800px"></canvas>
+        <div id="chart"></div>
+      </div>
+      <div class="column">
+        <!-- Display the k nearest neighbours -->
+        <div class="table-container" style="max-height: 692px; overflow: auto;">
           <table class="table is-bordered is-striped is-narrow is-hoverable has-text-centered" id="knn-table">
             <thead class="has-background-primary has-text-white">
               <tr>
@@ -171,55 +161,57 @@
           </table>
         </div>
       </div>
-      <div class="columns">
-        <!-- Display the dataset currently on the plot -->
-        <div class="column is-8">
-          <table class="table is-bordered is-striped is-narrow is-hoverable has-text-centered mb-5">
-            <thead class="has-background-primary has-text-white">
-              <tr>
-                <th colspan="4">Dataset</th>
-              </tr>
-              <tr>
-                <th width="1%">N°</th>
-                <th>X</th>
-                <th>Y</th>
-                <th>Etiqueta</th>
-              </tr>
-            </thead>
-            <tbody id="dataset-table-body"></tbody>
-          </table>
-        </div>
+    </div>
+    <div class="columns">
+      <!-- Display the dataset currently on the plot -->
+      <div class="column is-8">
+        <table class="table is-bordered is-striped is-narrow is-hoverable has-text-centered mb-5">
+          <thead class="has-background-primary has-text-white">
+            <tr>
+              <th colspan="4">Dataset</th>
+            </tr>
+            <tr>
+              <th width="1%">N°</th>
+              <th>X</th>
+              <th>Y</th>
+              <th>Etiqueta</th>
+            </tr>
+          </thead>
+          <tbody id="dataset-table-body"></tbody>
+        </table>
+      </div>
 
-        <!-- Display the precision of the classifications for every k -->
-        <div class="column is-3 is-offset-1">
-          <div id="optimum-k-reference">
-            <div id="optimum-k-color-reference"></div>
-            <label id="optimum-k-label-reference">K óptimo</label>
-          </div>
-          <table class="table is-bordered is-striped is-hoverable has-text-centered mb-5">
-            <thead class="has-background-primary has-text-white">
-              <tr>
-                <th>K</th>
-                <th>Clasificaciones correctas</th>
-                <th>Precisión (%)</th>
-              </tr>
-            </thead>
-            <tbody id="precision-table-body"></tbody>
-          </table>
+      <!-- Display the precision of the classifications for every k -->
+      <div class="column is-3 is-offset-1">
+        <div id="optimum-k-reference">
+          <div id="optimum-k-color-reference"></div>
+          <label id="optimum-k-label-reference">K óptimo</label>
         </div>
+        <table class="table is-bordered is-striped is-hoverable has-text-centered mb-5">
+          <thead class="has-background-primary has-text-white">
+            <tr>
+              <th>K</th>
+              <th>Clasificaciones correctas</th>
+              <th>Precisión (%)</th>
+            </tr>
+          </thead>
+          <tbody id="precision-table-body"></tbody>
+        </table>
       </div>
     </div>
-  </body>
-  <script src="datasets/inicial.js"></script>
-  <script src="datasets/wine.js"></script>
-  <script src="datasets/color_hue.js"></script>
-  <script src="datasets/color_phenols.js"></script>
-  <script src="datasets/fruits_pca.js"></script>
-  <script src="datasets/fruits0.js"></script>
-  <script src="datasets/fruits2.js"></script>
-  <script src="datasets/fruits4.js"></script>
-  <script src="datasets/iris_petalo.js"></script>
-  <script src="datasets/iris_sepalo.js"></script>
-  <script src="datasets/school_level.js"></script>
-  <script src="main.js"></script>
+  </div>
+</body>
+<script src="datasets/inicial.js"></script>
+<script src="datasets/wine.js"></script>
+<script src="datasets/color_hue.js"></script>
+<script src="datasets/color_phenols.js"></script>
+<script src="datasets/fruits_pca.js"></script>
+<script src="datasets/fruits0.js"></script>
+<script src="datasets/fruits2.js"></script>
+<script src="datasets/fruits4.js"></script>
+<script src="datasets/iris_petalo.js"></script>
+<script src="datasets/iris_sepalo.js"></script>
+<script src="datasets/school_level.js"></script>
+<script src="main.js"></script>
+
 </html>
