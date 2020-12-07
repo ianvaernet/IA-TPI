@@ -20,7 +20,7 @@
   zoom: 1.5;
 }
 
-#knn-table {
+.table-container {
   margin-top: 38px;
 }
 
@@ -43,7 +43,7 @@
 
 #precision-table-body > tr > td {
   padding: 0;
-  height: 37.78px;
+  height: 39px;
   vertical-align: middle;
 }
 
@@ -63,4 +63,27 @@
   height: 1px;
   background-color: rgba(0, 0, 0, 0.3);
   margin: 10px 0 20px 0;
+}
+
+#optimum-k-reference {
+  display: inline-flex;
+  position: absolute;
+  margin-top: -30px;
+}
+#optimum-k-color-reference {
+  width: 25px;
+  height: 25px;
+  background-color: rgb(255, 221, 87);
+}
+#optimum-k-label-reference {
+  margin-left: 5px;
+}
+
+
+.column > .box{
+  height: 100px;
+}
+
+select {
+  width: 100%;
 }
