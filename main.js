@@ -40,21 +40,8 @@ class Main {
     this.dataset = new Dataset(this.plot, this.datasetTable, this, this.canvas, labels);
     this.k = new K(this, this.plot, this.canvas, this.dataset);
     this.events = new Events(this, this.plot, this.dataset, this.k, this.canvas);
-    this.dataset.updateTrainingData(
-      [
-        { x: 1, y: -6.5, label: 'E1' },
-        { x: 2, y: -5.5, label: 'E1' },
-        { x: 1.5, y: -1.5, label: 'E1' },
-        { x: 3, y: 1.5, label: 'E1' },
-        { x: 6, y: 6.5, label: 'E2' },
-        { x: 7, y: 4.5, label: 'E2' },
-        { x: 8, y: 7.5, label: 'E2' },
-        { x: 6.5, y: 5.5, label: 'E2' },
-      ],
-      this.k.value,
-      true
-    );
     this.grid = new Grid(this.canvas);
+    this.dataset.loadDefaultDataset();
   }
   /**
    * @param {DataLabeled[]} trainingData
@@ -96,7 +83,7 @@ class Main {
 
     let zeroDistance = false;
     for (let i = 0; i < k; i++) {
-      if (sortedTrainingData[i].distance.toFixed(4) === 0 && method === 'distanceWeighted') {
+      if (sortedTrainingData[i] == 0 && method === 'distanceWeighted') {
         zeroDistance = true;
         var zeroDistanceLabel = sortedTrainingData[i].label;
         break;
