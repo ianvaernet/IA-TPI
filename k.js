@@ -1,4 +1,3 @@
-const sliderId = 'k-slider';
 const inputId = 'k-input';
 
 class K {
@@ -12,7 +11,6 @@ class K {
 
   update(k) {
     this.input.value = k;
-    this.slider.value = k;
     if (this.plot.mode === 'none') this.plot.updatePlot();
     else this.main.updateKNN(this.dataset.getTrainingData(), { x: 0, y: 0 }, k);
     this.canvas.updateCanvas(this.dataset.getTrainingData(), k);

@@ -20,7 +20,7 @@
   zoom: 1.5;
 }
 
-#knn-table {
+.table-container {
   margin-top: 38px;
 }
 
@@ -79,22 +79,11 @@
   margin-left: 5px;
 }
 
-#box-k-input {
-  min-width: 240px;
+
+.column > .box{
+  height: 100px;
 }
 
-#box-classification-method {
-  min-width: 350px;
-}
-
-#box-dataset-buttons {
-  min-width: 611px;
-}
-
-#grid-and-axis-checkboxes {
-  min-width: 300px;
-}
-
-#grid-divisions {
-  min-width: 490px;
+select {
+  width: 100%;
 }
