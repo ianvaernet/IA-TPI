@@ -45,8 +45,10 @@ class Canvas {
     let lastFrame = Date.now();
     let drawY = true;
     const distanceWeighted = this.main.getClassificationMethod() === 'distanceWeighted';
-    if (this.dataset !== trainingData || !this.matrix) this.matrix = {};
+    if (this.dataset !== trainingData || this.lastDeltaX !== this.deltaX || this.lastDeltaY !== this.deltaY || !this.matrix) this.matrix = {};
     this.dataset = trainingData;
+    this.lastDeltaX = this.deltaX;
+    this.lastDeltaY = this.deltaY;
     const sort = (a, b) => a.distance - b.distance;
     for (let i = 0; i <= this.deltaX; i++) {
       const xi = i * dWidth;
